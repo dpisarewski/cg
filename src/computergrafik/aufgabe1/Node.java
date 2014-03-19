@@ -1,5 +1,8 @@
 package computergrafik.aufgabe1;
 
+import computergrafik.framework.Vector3;
+
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,35 +11,47 @@ import java.util.List;
  * Created by pisare_d on 19.03.2014.
  */
 public class Node {
-
     List<Node> children;
-    float x;
-    float y;
-    float z;
+    List<Vector3> vectors;
 
-    public Node(List<Node> children){
-        this.x = 0f;
-        this.y = 0f;
-        this.z = 0f;
-        this.children = children;
+    public Node(){
+        this.children = new ArrayList<Node>();
+        this.vectors = new ArrayList<Vector3>();
     }
 
-    public Node(float x, float y, float z){
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public Node(List<Vector3> vectors){
         this.children = new ArrayList<Node>();
+        this.vectors = vectors;
     }
 
     public void addNode(Node node){
-        this.children.add(node);
+        children.add(node);
+    }
+
+    public void addVector(Vector3 vector){
+        vectors.add(vector);
     }
 
     public void draw(GL2 gl){
-        gl.glNormal3f(0, 0, 1);
-        gl.glVertex3f(x,y,z);
+        if(!vectors.isEmpty()){
+            Vector3 vec1 = vectors.get(0).subtract(vectors.get(1));
+            Vector3 vec2 = vectors.get(0).subtract(vectors.get(2));
+            Vector3 ortogonal = vec1.cross(vec2);
+            gl.glNormal3f(ortogonal.floatData()[0], ortogonal.floatData()[1], ortogonal.floatData()[2]);
+            gl.glBegin(GL.GL_TRIANGLES);
+            for(Vector3 vector : vectors){
+                gl.glVertex3f(vector.floatData()[0], vector.floatData()[1], vector.floatData()[2]);
+            }
+            gl.glEnd();
+        }
         for(Node child: children){
             child.draw(gl);
+        }
+    }
+
+    public void makeNodes(List<Vector3> vectors){
+        for(int i = 0; i < vectors.size(); i += 3){
+            addNode(new Node(vectors.subList(i, i + 3)));
         }
     }
 }
