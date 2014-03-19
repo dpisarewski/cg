@@ -44,10 +44,12 @@ public class Node {
         for(TransformationNode trans : transformations){
             trans.start(gl);
         }
+        if(material != null) material.start(gl);
         renderVectors(gl);
         for(Node child: children){
             child.draw(gl);
         }
+        if(material != null) material.end(gl);
         for(TransformationNode trans : transformations){
             trans.end(gl);
         }

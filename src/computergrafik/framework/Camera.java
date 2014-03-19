@@ -40,7 +40,7 @@ public class Camera {
     public Camera() {
         eye = new Vector3(0, 0, 5);
         ref = new Vector3(0, 0, 0);
-        up = new Vector3(0, 1, 0);
+        up = new Vector3(0, 5, 0);
     }
 
     /**
