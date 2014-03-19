@@ -36,13 +36,27 @@ public class Aufgabe1Frame extends ComputergrafikFrame {
         Cube cube = new Cube();
         cube.generateNodes(1);
 
-        Ring ring = new Ring();
+        Cube cube1 = new Cube();
+        cube1.generateNodes(1);
+        cube1.addTransformation(new TransformationNode(TransformationNode.SCALE, 1, 2, 1));
+        cube1.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 2, 0, 0));
+
+        Ring ring = new Ring(.5f, 1);
         ring.generateNodes(720);
+        ring.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 0, 0, -3));
+
+        Ring ring1 = new Ring(.5f, 1);
+        ring1.generateNodes(720);
+        ring1.addTransformation(new TransformationNode(TransformationNode.SCALE, .5f, .5f, 1));
+        ring1.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 2, 0, -3));
 
         setGlMaterial(gl, 0.25f, 0.25f, 0.75f);
         gl.glColor3f(0.75f, 0.25f, 0.25f);
         cube.draw(gl);
+        cube1.draw(gl);
+
         ring.draw(gl);
+        ring1.draw(gl);
     }
 
     /*

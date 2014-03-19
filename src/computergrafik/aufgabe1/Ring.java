@@ -10,16 +10,22 @@ import java.util.List;
  */
 public class Ring extends Node {
 
-    final float WIDTH = 0.25f;
+    float width;
+    float radius;
+
+    public Ring(float radius, float width){
+        this.radius = radius;
+        this.width  = width;
+    }
 
     public void generateNodes(int sections){
         List<Vector3> vectors  = new ArrayList<Vector3>();
         float x = 0f, y = 0f, z = 0f;
         float step = (360f / sections);
         for(float i = 0f; i < 360; i += step){
-            x = (float) Math.cos(Math.toRadians(i));
-            y = ((i / step) % 2) == 0 ? WIDTH : -WIDTH;
-            z = (float) Math.sin(Math.toRadians(i));
+            x = (float) Math.cos(Math.toRadians(i)) * radius;
+            y = ((i / step) % 2) == 0 ? width : -width;
+            z = (float) Math.sin(Math.toRadians(i)) * radius;
             vectors.add(new Vector3(x, y, z));
         }
         List<Vector3> tmp = new ArrayList<Vector3>();
