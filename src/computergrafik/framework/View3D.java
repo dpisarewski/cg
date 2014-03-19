@@ -6,24 +6,18 @@
 
 package computergrafik.framework;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
+import com.jogamp.opengl.util.FPSAnimator;
+import com.jogamp.opengl.util.GLReadBufferUtil;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
-import javax.swing.JFrame;
-
-import com.jogamp.opengl.util.FPSAnimator;
-import com.jogamp.opengl.util.GLReadBufferUtil;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.event.*;
+import java.io.File;
 
 /**
  * This class represents a view for 3D content
@@ -84,6 +78,11 @@ public class View3D extends JFrame implements GLEventListener, MouseListener,
      * empty string.
      */
     private String screenshotFilename = "";
+
+    /**
+     * Remember the current button.
+     */
+    private int currentButton = -1;
 
     /**
      * Constructor
@@ -165,6 +164,7 @@ public class View3D extends JFrame implements GLEventListener, MouseListener,
 
     @Override
     public void mousePressed(MouseEvent event) {
+        currentButton = event.getButton();
         if (event.getButton() == MouseEvent.BUTTON1) {
             lastMouseCoordinates.set(0, event.getX());
             lastMouseCoordinates.set(1, event.getY());
@@ -174,11 +174,12 @@ public class View3D extends JFrame implements GLEventListener, MouseListener,
     @Override
     public void mouseReleased(MouseEvent event) {
         lastMouseCoordinates = new Vector3(event.getX(), event.getY(), 0);
+        currentButton = -1;
     }
 
     @Override
     public void mouseDragged(MouseEvent event) {
-        if (event.getButton() == MouseEvent.BUTTON1) {
+        if (currentButton == MouseEvent.BUTTON1) {
             if ((lastMouseCoordinates.get(0) > 0)
                     && (lastMouseCoordinates.get(1) > 0)) {
                 cameraController
@@ -190,7 +191,7 @@ public class View3D extends JFrame implements GLEventListener, MouseListener,
             }
             lastMouseCoordinates.set(0, event.getX());
             lastMouseCoordinates.set(1, event.getY());
-        } else {
+        } else if (currentButton == MouseEvent.BUTTON3) {
             if ((lastMouseCoordinates.get(0) > 0)
                     && (lastMouseCoordinates.get(1) > 0)) {
                 cameraController
@@ -220,11 +221,34 @@ public class View3D extends JFrame implements GLEventListener, MouseListener,
             cameraController.mouseDeltaYRightButton(-1);
         } else if (e.getKeyChar() == '-') {
             cameraController.mouseDeltaYRightButton(1);
+        } else if (e.getKeyChar() == 's') {
+            takeScreenshot();
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+
+    /**
+     * Take a screenshot of the GL canvas. If a file gets selected, the filename
+     * is saved in the member variable screenshotFilename. The next time, the
+     * scene is redrawn, the snapshot is taken and saved to that filename.
+     */
+    void takeScreenshot() {
+        // Select file an save
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setMultiSelectionEnabled(false);
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("PNG images",
+                "PNG"));
+        int returnVal = fc.showSaveDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            final File screenshotFile = fc.getSelectedFile();
+            if (screenshotFile != null) {
+                screenshotFilename = screenshotFile.getAbsolutePath();
+            }
+        }
     }
 
     /**
