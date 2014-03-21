@@ -1,3 +1,9 @@
+/**
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 1, Aufgabe d.
+ */
 package computergrafik.aufgabe1;
 
 import javax.media.opengl.GL;
@@ -6,17 +12,25 @@ import javax.media.opengl.fixedfunc.GLLightingFunc;
 import java.nio.FloatBuffer;
 
 /**
- * Created by pisare_d on 19.03.2014.
+ * Die Klasse MaterialNode dient fuer die Aenderungen von Farben und Stoff.
  */
 public class MaterialNode {
     float[] color;
     FloatBuffer oldMaterial;
 
+    /**
+     * Konstruktor
+     */
     public MaterialNode(float r, float g, float b, float alpha){
         this.color = new float[] {r, g, b, alpha};
         this.oldMaterial = FloatBuffer.allocate(17);
     }
 
+    /**
+     * Die Methode speichert gueltige Einstellungen fuer Farbe, dann aendert die Farbe
+     * auf gegebene.
+     * @param gl: Objekt, fuer den die Aenderungen vorgenommen werden sollen.
+     */
     public void start(GL2 gl){
         gl.glGetMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
 
@@ -30,6 +44,10 @@ public class MaterialNode {
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_SHININESS, shininess, 0);
     }
 
+    /**
+     * Die Methode stellt alte Einstellungen fuer Farbe zurueck.
+     * @param gl: Objekt, fuer den die Aenderungen vorgenommen werden sollen.
+     */
     public void end(GL2 gl){
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
     }

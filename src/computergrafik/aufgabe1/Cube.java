@@ -1,3 +1,9 @@
+/**
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 1, Aufgabe b.
+ */
 package computergrafik.aufgabe1;
 
 import computergrafik.framework.Vector3;
@@ -6,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pisare_d on 19.03.2014.
+ * Diese Klasse repraesentiert einen Wuerfel.
+ *
  */
 public class Cube extends Node {
 
