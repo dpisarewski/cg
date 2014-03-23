@@ -52,6 +52,14 @@ public class Node {
         this.vectors = vectors;
     }
 
+    public List<Vector3> getVectors() {
+        return vectors;
+    }
+
+    public void setVectors(List<Vector3> vectors) {
+        this.vectors = vectors;
+    }
+
     /**
      * Fuegt einen Kindknoten hin.
      * @param node: Jbjekt von Type Node.
