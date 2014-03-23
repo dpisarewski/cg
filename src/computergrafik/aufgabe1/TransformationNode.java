@@ -12,13 +12,12 @@ import javax.media.opengl.GL2;
  * Die Klasse fuer die Aenderung des Objects: Position und seine Form.
  */
 public class TransformationNode {
-
     public static final int SCALE = 0;
     public static final int TRANSLATION = 1;
-    int type;
-    float a;
-    float b;
-    float c;
+    private int type;
+    private float a;
+    private float b;
+    private float c;
 
     /**
      * Konstruktor
@@ -41,6 +40,7 @@ public class TransformationNode {
      */
     public void start(GL2 gl){
         gl.glPushMatrix();
+
         switch (type){
             case SCALE :
                 gl.glScalef(a, b, c);

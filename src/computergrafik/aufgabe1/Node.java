@@ -17,10 +17,10 @@ import java.util.List;
  * Die Klasse praesentiert einen Knoten auf Szenengraph.
  */
 public class Node {
-    List<Vector3> vectors;
-    List<Node> children = new ArrayList<Node>();
-    List<TransformationNode> transformations = new ArrayList<TransformationNode>();
-    MaterialNode material;
+    protected List<Vector3> vectors;
+    protected List<Node> children = new ArrayList<Node>();
+    protected List<TransformationNode> transformations = new ArrayList<TransformationNode>();
+    protected MaterialNode material;
 
     /**
      * Konstruktor.
@@ -80,13 +80,19 @@ public class Node {
             trans.start(gl);
         }
         // Muss den Stoff geaendert werden?
-        if(material != null) material.start(gl);
+        if(material != null) {
+            material.start(gl);
+        }
+
         renderVectors(gl);
+
         for(Node child: children){
             child.draw(gl);
         }
         // Setze die Einstellungen fuer den Stoff zurueck.
-        if(material != null) material.end(gl);
+        if(material != null) {
+            material.end(gl);
+        }
         // Setze die Einstellungen fuer die Transformation zurueck.
         for(TransformationNode trans : transformations){
             trans.end(gl);
@@ -116,9 +122,11 @@ public class Node {
             Vector3 ortogonal = vec1.cross(vec2);
             gl.glNormal3f(ortogonal.floatData()[0], ortogonal.floatData()[1], ortogonal.floatData()[2]);
             gl.glBegin(GL.GL_TRIANGLES);
+
             for(Vector3 vector : vectors){
                 gl.glVertex3f(vector.floatData()[0], vector.floatData()[1], vector.floatData()[2]);
             }
+
             gl.glEnd();
         }
     }

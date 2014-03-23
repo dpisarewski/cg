@@ -55,9 +55,9 @@ public class Aufgabe1Frame extends ComputergrafikFrame {
         ring1.setMaterial(new MaterialNode(0, 0, .5f, 1f));
 
         setGlMaterial(gl, 0.25f, 0.25f, 0.75f);
+
         cube.draw(gl);
         cube1.draw(gl);
-
         ring.draw(gl);
         ring1.draw(gl);
     }

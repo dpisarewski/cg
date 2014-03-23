@@ -17,9 +17,14 @@ import java.util.List;
  */
 public class Cube extends Node {
 
+    /**
+     * Generiert Nodes für einen Würfel
+     * @param size Größe des Würfels
+     */
     public void generateNodes(float size){
         float halfSize = size/2;
         List<Vector3> vectors = new ArrayList<Vector3>();
+
         vectors.add(new Vector3(-halfSize,halfSize,-halfSize));
         vectors.add(new Vector3(-halfSize,halfSize,halfSize));
         vectors.add(new Vector3(halfSize,halfSize,-halfSize));
@@ -56,6 +61,7 @@ public class Cube extends Node {
         vectors.add(new Vector3(-halfSize,-halfSize,halfSize));
         vectors.add(new Vector3(-halfSize,halfSize,-halfSize));
         vectors.add(new Vector3(-halfSize,-halfSize,-halfSize));
+
         makeNodes(vectors);
     }
 

@@ -15,8 +15,8 @@ import java.nio.FloatBuffer;
  * Die Klasse MaterialNode dient fuer die Aenderungen von Farben und Stoff.
  */
 public class MaterialNode {
-    float[] color;
-    FloatBuffer oldMaterial;
+    private float[] color;
+    private FloatBuffer oldMaterial;
 
     /**
      * Konstruktor

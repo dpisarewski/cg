@@ -15,9 +15,8 @@ import java.util.List;
  * Diese Klasse repraesentiert einen Ring. Der Ring besitzt zwei Parameter: Radius und Dicke.
  */
 public class Ring extends Node {
-
-    float width;
-    float radius;
+    private float width;
+    private float radius;
 
     /**
      * Konstruktor
@@ -43,6 +42,7 @@ public class Ring extends Node {
         List<Vector3> vectors  = new ArrayList<Vector3>();
         float x = 0f, y = 0f, z = 0f;
         float step = (360f / sections);
+
         for(float i = 0f; i < 360; i += step){
             x = (float) Math.cos(Math.toRadians(i)) * radius;
             // Die Dreiecken haben die Spitzen oben oder unten.
