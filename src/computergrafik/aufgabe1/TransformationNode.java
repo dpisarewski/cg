@@ -12,9 +12,20 @@ import javax.media.opengl.GL2;
  * Die Klasse fuer die Aenderung des Objects: Position und seine Form.
  */
 public class TransformationNode {
+    /**
+     * Enum Werte für Transformationstyp
+     */
     public static final int SCALE = 0;
     public static final int TRANSLATION = 1;
+
+    /**
+     * Transformationstyp
+     */
     private int type;
+
+    /**
+     * Parameter für Transformation
+     */
     private float a;
     private float b;
     private float c;

@@ -16,7 +16,6 @@ import java.util.List;
  *
  */
 public class Cube extends Node {
-
     /**
      * Generiert Nodes für einen Würfel
      * @param size Größe des Würfels

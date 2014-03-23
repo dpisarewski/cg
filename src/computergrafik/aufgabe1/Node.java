@@ -17,9 +17,24 @@ import java.util.List;
  * Die Klasse praesentiert einen Knoten auf Szenengraph.
  */
 public class Node {
+    /**
+     * Liste von Vektoren, aus dennen Node besteht.
+     */
     protected List<Vector3> vectors;
+
+    /**
+     * Liste von Nodes, aus dennen Node besteht.
+     */
     protected List<Node> children = new ArrayList<Node>();
+
+    /**
+     * Transformationsobjekt, das beim Rendering verwendet wird.
+     */
     protected List<TransformationNode> transformations = new ArrayList<TransformationNode>();
+
+    /**
+     * Material, das beim Rendering verwendet wird.
+     */
     protected MaterialNode material;
 
     /**

@@ -15,7 +15,14 @@ import java.util.List;
  * Diese Klasse repraesentiert einen Ring. Der Ring besitzt zwei Parameter: Radius und Dicke.
  */
 public class Ring extends Node {
+    /**
+     * Breite des Rings
+     */
     private float width;
+
+    /**
+     * Radius des Rings
+     */
     private float radius;
 
     /**
