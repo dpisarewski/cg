@@ -207,4 +207,12 @@ public class Vector3 {
         values[MathHelpers.INDEX_1] /= norm;
         values[MathHelpers.INDEX_2] /= norm;
     }
+
+    /**
+     * Return whether Vector is null vector
+     * @return
+     */
+    public boolean isNull(){
+        return equals(new Vector3());
+    }
 }
