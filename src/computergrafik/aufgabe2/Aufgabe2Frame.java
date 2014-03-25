@@ -5,10 +5,10 @@
  */
 package computergrafik.aufgabe2;
 
-import computergrafik.aufgabe1.Cube;
-import computergrafik.aufgabe1.MaterialNode;
-import computergrafik.aufgabe1.Ring;
-import computergrafik.aufgabe1.TransformationNode;
+import computergrafik.aufgabe2.Cube;
+import computergrafik.aufgabe2.MaterialNode;
+import computergrafik.aufgabe2.Ring;
+import computergrafik.aufgabe2.TransformationNode;
 import computergrafik.framework.ComputergrafikFrame;
 import computergrafik.framework.Vector3;
 
@@ -64,14 +64,13 @@ public class Aufgabe2Frame extends ComputergrafikFrame {
         setGlMaterial(gl, 0.25f, 0.25f, 0.75f);
 
         List<Vertex> vertices = new ArrayList<Vertex>();
-        for(Vector3 vector : cube.exportVectors()){
+        for(Vector3 vector : ring.getVectors()){
             vertices.add(new Vertex(vector));
         }
-        TriangleMesh mesh = new TriangleMesh(vertices);
-        mesh.generateStructure();
+        TriangleMesh mesh = new TriangleMesh();
+        mesh.generateStructure(vertices, ring.getIndices());
         mesh.calculateNormals();
         mesh.draw(gl);
-
     }
 
     /*

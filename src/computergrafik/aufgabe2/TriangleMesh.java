@@ -28,13 +28,18 @@ public class TriangleMesh {
     private List<Vertex> vertices;
 
     /**
+     * Liste von Indices.
+     */
+    private List<Integer> indices;
+
+
+    /**
      * Konstruktor.
      */
-    public TriangleMesh(List<Vertex> vertices){
-        this.vertices = vertices;
+    public TriangleMesh(){
     }
 
-    public void addVectex(Vertex vertex){
+    public void addVertex(Vertex vertex){
         vertices.add(vertex);
     }
 
@@ -42,10 +47,17 @@ public class TriangleMesh {
         triangles.add(triangle);
     }
 
-    public void generateStructure(){
-        for(int i = 0; i < vertices.size(); i += 3){
-            addTriangle(new Triangle(new int[]{i, i + 1, i + 2}));
+    public void generateStructure(List<Vertex> vertices, List<Integer> indices){
+        this.vertices = vertices;
+        this.indices  = indices;
+        for(int i = 0; i < indices.size(); i += 3){
+            int[] incides = new int[]{indices.get(i), indices.get(i + 1), indices.get(i + 2)};
+            addTriangle(new Triangle(incides));
         }
+    }
+
+    public List<Integer> getIndices(){
+        return indices;
     }
 
     public void calculateNormals(){
@@ -59,7 +71,7 @@ public class TriangleMesh {
     }
 
     public void draw(GL2 gl){
-        new VertexArrayRenderer(vertices).draw(gl);
+        (new VertexArrayRenderer(vertices, indices)).draw(gl);
     }
 
 
