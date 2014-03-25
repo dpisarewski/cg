@@ -153,4 +153,16 @@ public class Node {
             gl.glEnd();
         }
     }
+
+    public List<Vector3> exportVectors(){
+        List<Vector3> vectorList = new ArrayList<Vector3>();
+        if(vectors.isEmpty()){
+            for(Node node : children){
+                vectorList.addAll(node.exportVectors());
+            }
+        }else{
+            vectorList = vectors;
+        }
+        return vectorList;
+    }
 }

@@ -64,12 +64,13 @@ public class Aufgabe2Frame extends ComputergrafikFrame {
         setGlMaterial(gl, 0.25f, 0.25f, 0.75f);
 
         List<Vertex> vertices = new ArrayList<Vertex>();
-        for(Vector3 vector : cube.getVectors()){
+        for(Vector3 vector : cube.exportVectors()){
             vertices.add(new Vertex(vector));
         }
         TriangleMesh mesh = new TriangleMesh(vertices);
         mesh.generateStructure();
         mesh.calculateNormals();
+        mesh.draw(gl);
 
     }
 

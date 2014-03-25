@@ -7,6 +7,7 @@ package computergrafik.aufgabe2;
  * Aufgabenblatt 2, Aufgabe a.
  */
 
+import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,8 +58,8 @@ public class TriangleMesh {
         }
     }
 
-    public void draw(){
-
+    public void draw(GL2 gl){
+        new VertexArrayRenderer(vertices).draw(gl);
     }
 
 
