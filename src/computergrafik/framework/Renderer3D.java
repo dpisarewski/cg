@@ -111,8 +111,8 @@ public class Renderer3D {
 
         // Enable buffers
         gl.glEnableClientState(GLPointerFunc.GL_VERTEX_ARRAY);
-        gl.glEnableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
-        gl.glEnableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY);
+        //gl.glEnableClientState(GLPointerFunc.GL_NORMAL_ARRAY);
+        //gl.glEnableClientState(GLPointerFunc.GL_TEXTURE_COORD_ARRAY);
 
         // define the color we want to be displayed as the "clipping wall"
         gl.glClearColor((float) (CLEAR_COLOR.get(0)),

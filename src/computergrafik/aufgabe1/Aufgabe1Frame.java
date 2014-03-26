@@ -49,7 +49,7 @@ public class Aufgabe1Frame extends ComputergrafikFrame {
         ring.setMaterial(new MaterialNode(0, .5f, 0f, 1f));
 
         Ring ring1 = new Ring(.5f, 1);
-        ring1.generateNodes(720);
+        ring1.generateNodes(12);
         ring1.addTransformation(new TransformationNode(TransformationNode.SCALE, .5f, .5f, 1));
         ring1.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 3, 0, -2));
         ring1.setMaterial(new MaterialNode(0, 0, .5f, 1f));

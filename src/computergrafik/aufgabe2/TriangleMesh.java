@@ -39,6 +39,14 @@ public class TriangleMesh {
     public TriangleMesh(){
     }
 
+    public List<Triangle> getTriangles() {
+        return triangles;
+    }
+
+    public void setTriangles(List<Triangle> triangles) {
+        this.triangles = triangles;
+    }
+
     public void addVertex(Vertex vertex){
         vertices.add(vertex);
     }
@@ -70,8 +78,8 @@ public class TriangleMesh {
         }
     }
 
-    public void draw(GL2 gl){
-        (new VertexArrayRenderer(vertices, indices)).draw(gl);
+    public void draw(GL2 gl, VertexArrayRenderer renderer){
+        renderer.draw(gl);
     }
 
 

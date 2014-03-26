@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class Vertex {
     private Vector3 position;
+
     private Vector3 normal = new Vector3();
 
     /**
@@ -42,6 +43,14 @@ public class Vertex {
         this.position = position;
     }
 
+    public Vector3 getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Vector3 normal) {
+        this.normal = normal;
+    }
+
     /**
      * Berechnet eine Normale für den Eckpunkt
      * @param triangles
@@ -50,8 +59,10 @@ public class Vertex {
         Vector3 vec = new Vector3();
 
         for(Triangle triangle: triangles){
-            if(!vec.isNull()){
-                vec = vec.add(triangle.getNormal()).multiply(0.5);
+            if(vec.isNull()){
+                vec = triangle.getNormal();
+            }else{
+                vec = vec.add(triangle.getNormal());
             }
         }
 
@@ -62,8 +73,10 @@ public class Vertex {
         List<Triangle> triangleList = new ArrayList<Triangle>();
 
         for(Triangle triangle : triangles){
-            if(Arrays.asList(triangle.getIndices()).contains(vertices.indexOf(this))){
-                triangleList.add(triangle);
+            for(int index : triangle.getIndices()){
+                if(index == vertices.indexOf(this)){
+                    triangleList.add(triangle);
+                }
             }
         }
 

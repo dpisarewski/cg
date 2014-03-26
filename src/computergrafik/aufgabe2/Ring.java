@@ -70,5 +70,21 @@ public class Ring extends Node {
         indices.add(vectors.size() - 1);
         indices.add(0);
         indices.add(1);
+
+        // Die Dreiecken in draw werden aus drei nacheinander folgenden Punkten gebildet.
+        // Die Punkten werden aber mehrmals benutzt, da die Nachbarndreiecke gemeinsame
+        // Punkte haben. Bei einem Durchlauf durch die Punkte wird nur jede 3. Dreieck
+        // aus ganze Reihe gebildet. Deswegen werden alle Punkte 2 Mal mit der
+        // Verschiebung 1 kopiert. So wird vollstaendigen Ring erreicht.
+        List<Vector3> tmp = new ArrayList<Vector3>();
+        tmp.addAll(vectors.subList(1, vectors.size() - 1));
+        tmp.add(vectors.get(vectors.size() - 1));
+        tmp.addAll(vectors.subList(0, 1));
+
+        tmp.addAll(vectors.subList(2, vectors.size() -1));
+        tmp.add(vectors.get(vectors.size() - 1));
+        tmp.addAll(vectors.subList(0, 2));
+
+        vectors.addAll(tmp);
     }
 }

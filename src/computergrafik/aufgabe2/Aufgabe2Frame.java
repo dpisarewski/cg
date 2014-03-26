@@ -23,6 +23,9 @@ import java.util.List;
  * 
  */
 public class Aufgabe2Frame extends ComputergrafikFrame {
+    List<Node> nodes = new ArrayList<Node>();
+    TriangleMesh mesh = new TriangleMesh();
+    VertexArrayRenderer renderer;
 
     /**
      * Constructor.
@@ -40,37 +43,46 @@ public class Aufgabe2Frame extends ComputergrafikFrame {
      */
     @Override
     public void drawGlContent(GL2 gl) {
+        setGlMaterial(gl, 0.25f, 0.25f, 0.75f);
+        if(renderer != null && renderer.isSetup()){
+            mesh.draw(gl, renderer);
+        }
+    }
+
+    private void construct(){
         Cube cube = new Cube();
         cube.generateNodes(1);
         cube.setMaterial(new MaterialNode(0f, 0f, 0f, 1f));
+        nodes.add(cube);
 
-        Cube cube1 = new Cube();
-        cube1.generateNodes(1);
-        cube1.addTransformation(new TransformationNode(TransformationNode.SCALE, 1, 2, 1));
-        cube1.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 2, 0, 0));
-        cube1.setMaterial(new MaterialNode(.5f, 0f, 0f, 1f));
+        cube = new Cube();
+        cube.generateNodes(1);
+        cube.addTransformation(new TransformationNode(TransformationNode.SCALE, 1, 2, 1));
+        cube.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 2, 0, 0));
+        cube.setMaterial(new MaterialNode(.5f, 0f, 0f, 1f));
+        nodes.add(cube);
 
         Ring ring = new Ring(.5f, .5f);
         ring.generateNodes(720);
         ring.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 0, 0, -2));
         ring.setMaterial(new MaterialNode(0, .5f, 0f, 1f));
 
-        Ring ring1 = new Ring(.5f, 1);
-        ring1.generateNodes(720);
-        ring1.addTransformation(new TransformationNode(TransformationNode.SCALE, .5f, .5f, 1));
-        ring1.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 3, 0, -2));
-        ring1.setMaterial(new MaterialNode(0, 0, .5f, 1f));
-
-        setGlMaterial(gl, 0.25f, 0.25f, 0.75f);
+        ring = new Ring(.5f, 1);
+        ring.generateNodes(36);
+        ring.addTransformation(new TransformationNode(TransformationNode.SCALE, .5f, .5f, 1));
+        ring.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 3, 0, -2));
+        ring.setMaterial(new MaterialNode(0, 0, .5f, 1f));
+        nodes.add(ring);
 
         List<Vertex> vertices = new ArrayList<Vertex>();
         for(Vector3 vector : ring.getVectors()){
             vertices.add(new Vertex(vector));
         }
-        TriangleMesh mesh = new TriangleMesh();
+
         mesh.generateStructure(vertices, ring.getIndices());
         mesh.calculateNormals();
-        mesh.draw(gl);
+        renderer = new VertexArrayRenderer();
+        renderer.setData(vertices, mesh.getTriangles());
     }
 
     /*
@@ -86,6 +98,6 @@ public class Aufgabe2Frame extends ComputergrafikFrame {
      * Program entry point.
      */
     public static void main(String[] args) {
-        new Aufgabe2Frame(1000);
+        (new Aufgabe2Frame(1000)).construct();
     }
 }
