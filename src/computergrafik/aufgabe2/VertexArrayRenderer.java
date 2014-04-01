@@ -54,9 +54,19 @@ public class VertexArrayRenderer {
     }
 
     public void draw(GL2 gl){
+        start(gl);
+        gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexArray.length / 3);
+        end(gl);
+    }
+
+    public boolean isSetup(){
+        return vertexArray != null && normalsArray != null && colorsArray != null;
+    }
+
+    private void start(GL2 gl){
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
-        //gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
+        gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
 
         verticesBuf = createBuffer(vertexArray);
         colorsBuff  = createBuffer(colorsArray);
@@ -64,17 +74,13 @@ public class VertexArrayRenderer {
 
         gl.glVertexPointer(3, GL2.GL_FLOAT, 0, verticesBuf);
         gl.glNormalPointer(GL2.GL_FLOAT, 0, normalsBuff);
-        //gl.glColorPointer(3, GL2.GL_FLOAT, 0, colorsBuff);
-
-        gl.glColor3f( 1f, 0f, 0f );
-        gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexArray.length / 3);
-
-        gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
-        gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
+        gl.glColorPointer(3, GL2.GL_FLOAT, 0, colorsBuff);
     }
 
-    public boolean isSetup(){
-        return vertexArray != null && normalsArray != null && colorsArray != null;
+    private void end(GL2 gl){
+        gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
+        gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
+        gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
     }
 
     private FloatBuffer createBuffer(float[] array){

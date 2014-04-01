@@ -38,8 +38,7 @@ public class Aufgabe2Frame extends ComputergrafikFrame {
      * (nicht-Javadoc)
      * 
      * @see
-     * computergrafik.framework.IRenderFrame#drawGlContent(javax.media.opengl
-     * .GL)
+     * computergrafik.framework.IRenderFrame#drawGlContent(javax.media.opengl.GL)
      */
     @Override
     public void drawGlContent(GL2 gl) {
@@ -74,15 +73,10 @@ public class Aufgabe2Frame extends ComputergrafikFrame {
         ring.setMaterial(new MaterialNode(0, 0, .5f, 1f));
         nodes.add(ring);
 
-        List<Vertex> vertices = new ArrayList<Vertex>();
-        for(Vector3 vector : ring.getVectors()){
-            vertices.add(new Vertex(vector));
-        }
-
-        mesh.generateStructure(vertices, ring.getIndices());
+        mesh.generateStructure(cube);
         mesh.calculateNormals();
         renderer = new VertexArrayRenderer();
-        renderer.setData(vertices, mesh.getTriangles());
+        renderer.setData(mesh.getVertices(), mesh.getTriangles());
     }
 
     /*

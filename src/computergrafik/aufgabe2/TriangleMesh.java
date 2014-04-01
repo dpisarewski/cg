@@ -7,6 +7,8 @@ package computergrafik.aufgabe2;
  * Aufgabenblatt 2, Aufgabe a.
  */
 
+import computergrafik.framework.Vector3;
+
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +49,14 @@ public class TriangleMesh {
         this.triangles = triangles;
     }
 
+    public List<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(List<Vertex> vertices) {
+        this.vertices = vertices;
+    }
+
     public void addVertex(Vertex vertex){
         vertices.add(vertex);
     }
@@ -62,6 +72,10 @@ public class TriangleMesh {
             int[] incides = new int[]{indices.get(i), indices.get(i + 1), indices.get(i + 2)};
             addTriangle(new Triangle(incides));
         }
+    }
+
+    public void generateStructure(Node node){
+        generateStructure(verticesFromVectors(node.getVectors()), node.getIndices());
     }
 
     public List<Integer> getIndices(){
@@ -82,5 +96,14 @@ public class TriangleMesh {
         renderer.draw(gl);
     }
 
+
+
+    public static List<Vertex> verticesFromVectors(List<Vector3> vectors){
+        List<Vertex> vertices = new ArrayList<Vertex>();
+        for(Vector3 vector : vectors){
+            vertices.add(new Vertex(vector));
+        }
+        return vertices;
+    }
 
 }

@@ -16,48 +16,56 @@ import java.util.List;
  *
  */
 public class Cube extends Node {
+    private int lastIndex = 0;
+
     /**
      * Generiert Nodes für einen Würfel
      * @param size Größe des Würfels
      */
     public void generateNodes(float size){
         float halfSize = size/2;
-        vectors.add(new Vector3(-halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(-halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,-halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,-halfSize));
-        vectors.add(new Vector3(-halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(halfSize,-halfSize,-halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,halfSize));
-        vectors.add(new Vector3(-halfSize,halfSize,-halfSize));
-        vectors.add(new Vector3(-halfSize,-halfSize,-halfSize));
+        addVector(-halfSize,halfSize,-halfSize);
+        addVector(-halfSize,halfSize,halfSize);
+        addVector(halfSize,halfSize,-halfSize);
+        addVector(halfSize,halfSize,-halfSize);
+        addVector(halfSize,halfSize,halfSize);
+        addVector(-halfSize,halfSize,halfSize);
+        addVector(-halfSize,-halfSize,halfSize);
+        addVector(-halfSize,halfSize,halfSize);
+        addVector(halfSize,halfSize,halfSize);
+        addVector(-halfSize,-halfSize,halfSize);
+        addVector(halfSize,halfSize,halfSize);
+        addVector(halfSize,-halfSize,halfSize);
+        addVector(-halfSize,-halfSize,halfSize);
+        addVector(-halfSize,-halfSize,-halfSize);
+        addVector(halfSize,-halfSize,-halfSize);
+        addVector(-halfSize,-halfSize,halfSize);
+        addVector(halfSize,-halfSize,-halfSize);
+        addVector(halfSize,-halfSize,halfSize);
+        addVector(-halfSize,-halfSize,-halfSize);
+        addVector(-halfSize,halfSize,-halfSize);
+        addVector(halfSize,halfSize,-halfSize);
+        addVector(-halfSize,-halfSize,-halfSize);
+        addVector(halfSize,halfSize,-halfSize);
+        addVector(halfSize,-halfSize,-halfSize);
+        addVector(halfSize,-halfSize,halfSize);
+        addVector(halfSize,halfSize,halfSize);
+        addVector(halfSize,halfSize,-halfSize);
+        addVector(halfSize,-halfSize,halfSize);
+        addVector(halfSize,halfSize,-halfSize);
+        addVector(halfSize,-halfSize,-halfSize);
+        addVector(-halfSize,-halfSize,halfSize);
+        addVector(-halfSize,halfSize,halfSize);
+        addVector(-halfSize,halfSize,-halfSize);
+        addVector(-halfSize,-halfSize,halfSize);
+        addVector(-halfSize,halfSize,-halfSize);
+        addVector(-halfSize,-halfSize,-halfSize);
+    }
+
+    private void addVector(float x, float y, float z){
+        vectors.add(new Vector3(x, y, z));
+        indices.add(lastIndex);
+        lastIndex++;
     }
 
 }
