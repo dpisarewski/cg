@@ -18,14 +18,12 @@ import java.util.List;
  */
 
 public class VertexArrayRenderer {
-    private int[]   vertexIndices;
     private float[] vertexArray;
     private float[] colorsArray;
     private float[] normalsArray;
     private FloatBuffer verticesBuf;
     private FloatBuffer colorsBuff;
     private FloatBuffer normalsBuff;
-    private IntBuffer indicesBuff;
 
     public VertexArrayRenderer(){
     }
@@ -38,14 +36,6 @@ public class VertexArrayRenderer {
             vertexArray[offset]      = vertex.getPosition().floatData()[0];
             vertexArray[offset + 1]  = vertex.getPosition().floatData()[1];
             vertexArray[offset + 2]  = vertex.getPosition().floatData()[2];
-        }
-
-        vertexIndices = new int[triangles.size() * 3];
-        for(int i = 0; i < triangles.size(); i++){
-            int offset = i * 3;
-            vertexIndices[offset]       = triangles.get(i).getIndices()[0];
-            vertexIndices[offset + 1]   = triangles.get(i).getIndices()[1];
-            vertexIndices[offset + 2]   = triangles.get(i).getIndices()[2];
         }
 
         normalsArray = new float[triangles.size() * 9];
@@ -68,21 +58,9 @@ public class VertexArrayRenderer {
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
         //gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
 
-        verticesBuf = Buffers.newDirectFloatBuffer(vertexArray);
-        verticesBuf.put(vertexArray);
-        verticesBuf.rewind();
-
-        colorsBuff = Buffers.newDirectFloatBuffer(colorsArray);
-        colorsBuff.put(colorsArray);
-        colorsBuff.rewind();
-
-        indicesBuff = Buffers.newDirectIntBuffer(vertexIndices);
-        indicesBuff.put(vertexIndices);
-        indicesBuff.rewind();
-
-        normalsBuff = Buffers.newDirectFloatBuffer(normalsArray);
-        normalsBuff.put(normalsArray);
-        normalsBuff.rewind();
+        verticesBuf = createBuffer(vertexArray);
+        colorsBuff  = createBuffer(colorsArray);
+        normalsBuff = createBuffer(normalsArray);
 
         gl.glVertexPointer(3, GL2.GL_FLOAT, 0, verticesBuf);
         gl.glNormalPointer(GL2.GL_FLOAT, 0, normalsBuff);
@@ -97,5 +75,12 @@ public class VertexArrayRenderer {
 
     public boolean isSetup(){
         return vertexArray != null && normalsArray != null && colorsArray != null;
+    }
+
+    private FloatBuffer createBuffer(float[] array){
+        FloatBuffer buffer = Buffers.newDirectFloatBuffer(array);
+        buffer.put(array);
+        buffer.rewind();
+        return buffer;
     }
 }
