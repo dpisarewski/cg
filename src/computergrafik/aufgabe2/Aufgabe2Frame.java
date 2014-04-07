@@ -67,13 +67,13 @@ public class Aufgabe2Frame extends ComputergrafikFrame {
         ring.setMaterial(new MaterialNode(0, .5f, 0f, 1f));
 
         ring = new Ring(.5f, 1);
-        ring.generateNodes(36);
+        ring.generateNodes(720);
         ring.addTransformation(new TransformationNode(TransformationNode.SCALE, .5f, .5f, 1));
         ring.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 3, 0, -2));
         ring.setMaterial(new MaterialNode(0, 0, .5f, 1f));
         nodes.add(ring);
 
-        mesh.generateStructure(cube);
+        mesh.generateStructure(ring);
         mesh.calculateNormals();
         renderer = new VertexArrayRenderer();
         renderer.setData(mesh.getVertices(), mesh.getTriangles());

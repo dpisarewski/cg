@@ -46,55 +46,25 @@ public class Ring extends Node {
      * @param sections: Anzahl des Dreiecks
      */
     public void generateNodes(int sections){
-        float x = 0f, y = 0f, z = 0f;
+        float x1 = 0f, x2 = 0f, z1 = 0f, z2 = 0f;
         float step = (360f / sections);
 
         for(float i = 0f; i < 360; i += step){
-            x = (float) Math.cos(Math.toRadians(i)) * radius;
-            // Die Dreiecken haben die Spitzen oben oder unten.
-            y = ((i / step) % 2) == 0 ? width : -width;
-            z = (float) Math.sin(Math.toRadians(i)) * radius;
-            vectors.add(new Vector3(x, y, z));
+            x1 =    (float) Math.cos(Math.toRadians(i)) * radius;
+            x2 =    (float) Math.cos(Math.toRadians(i + step)) * radius;
+            z1 =    (float) Math.sin(Math.toRadians(i)) * radius;
+            z2 =    (float) Math.sin(Math.toRadians(i + step)) * radius;
+            vectors.add(new Vector3(x1, width,  z1));
+            vectors.add(new Vector3(x1, -width, z1));
+            vectors.add(new Vector3(x2, -width, z2));
+            vectors.add(new Vector3(x1, width,  z1));
+            vectors.add(new Vector3(x2, -width, z2));
+            vectors.add(new Vector3(x2, width,  z2));
+        }
+        for(int j = 0; j < sections * 6; j++){
+            indices.add(j);
         }
 
-        for(int i = 0; i < vectors.size() - 2; i++){
-            indices.add(i);
-            indices.add(i + 1);
-            indices.add(i + 2);
-        }
 
-        indices.add(vectors.size() - 2);
-        indices.add(vectors.size() - 1);
-        indices.add(0);
-
-        indices.add(vectors.size() - 1);
-        indices.add(0);
-        indices.add(1);
-
-        // Die Dreiecken in draw werden aus drei nacheinander folgenden Punkten gebildet.
-        // Die Punkten werden aber mehrmals benutzt, da die Nachbarndreiecke gemeinsame
-        // Punkte haben. Bei einem Durchlauf durch die Punkte wird nur jede 3. Dreieck
-        // aus ganze Reihe gebildet. Deswegen werden alle Punkte 2 Mal mit der
-        // Verschiebung 1 kopiert. So wird vollstaendigen Ring erreicht.
-        List<Vector3> tmpVectors = new ArrayList<Vector3>();
-        tmpVectors.addAll(vectors.subList(1, vectors.size() - 1));
-        tmpVectors.add(vectors.get(vectors.size() - 1));
-        tmpVectors.addAll(vectors.subList(0, 1));
-
-        tmpVectors.addAll(vectors.subList(2, vectors.size() - 1));
-        tmpVectors.add(vectors.get(vectors.size() - 1));
-        tmpVectors.addAll(vectors.subList(0, 2));
-
-        List<Integer> tmpIndices = new ArrayList<Integer>();
-        tmpIndices.addAll(indices.subList(1, indices.size() - 1));
-        tmpIndices.add(indices.get(indices.size() - 1));
-        tmpIndices.addAll(indices.subList(0, 1));
-
-        tmpIndices.addAll(indices.subList(2, indices.size() - 1));
-        tmpIndices.add(indices.get(indices.size() - 1));
-        tmpIndices.addAll(indices.subList(0, 2));
-
-        vectors.addAll(tmpVectors);
-        indices.addAll(tmpIndices);
     }
 }
