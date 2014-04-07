@@ -28,6 +28,14 @@ public class VertexArrayRenderer {
     public VertexArrayRenderer(){
     }
 
+    /**
+     * Die Methode bildet 3 Arrays: mit Vertices, mit den Normalen und mit Colors.
+     * Die Vertices haben 3 Punkten. Deswegen vertexArray wird 3 Mal so lang, wie Anzahl der Vertices.
+     * Jeder Dreieck besteht aus 3 Vertices. Die Normalen werden fuer jeder berechnet. Also normalsArray
+     * wird 3x3 so lang, wie Anzahl der Dreiecken.
+     * @param vertices
+     * @param triangles
+     */
     public void setData(List<Vertex> vertices, List<Triangle> triangles){
         vertexArray     = new float[vertices.size() * 3];
         for(int i = 0; i < vertices.size(); i++){
@@ -53,16 +61,28 @@ public class VertexArrayRenderer {
         Arrays.fill(colorsArray, 0f);
     }
 
+    /**
+     * Ruft alle noetige Methoden fuer den Start und End des Zeichnen der Objekte auf.
+     * @param gl
+     */
     public void draw(GL2 gl){
         start(gl);
         gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexArray.length / 3);
         end(gl);
     }
 
+    /**
+     * Die Methode dient fuer die Pruefung ob alle noetige Arrays existieren.
+     * @return: true oder false.
+     */
     public boolean isSetup(){
         return vertexArray != null && normalsArray != null && colorsArray != null;
     }
 
+    /**
+     * Startet das Zeichnen der Objekte
+     * @param gl
+     */
     private void start(GL2 gl){
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
@@ -77,12 +97,21 @@ public class VertexArrayRenderer {
         gl.glColorPointer(3, GL2.GL_FLOAT, 0, colorsBuff);
     }
 
+    /**
+     * Beendet das Zeichnen der Objekte.
+     * @param gl
+     */
     private void end(GL2 gl){
         gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
         gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
     }
 
+    /**
+     * Bildet einen Buffer aus Array
+     * @param array
+     * @return Buffer
+     */
     private FloatBuffer createBuffer(float[] array){
         FloatBuffer buffer = Buffers.newDirectFloatBuffer(array);
         buffer.put(array);

@@ -37,18 +37,30 @@ public class Triangle {
         this.indices = indices;
     }
 
+    /**
+     * Getter
+     */
     public Vector3 getNormal() {
         return normal;
     }
 
+    /**
+     * Setter
+     */
     public void setNormal(Vector3 normal) {
         this.normal = normal;
     }
 
+    /**
+     * Getter
+     */
     public int[] getIndices() {
         return indices;
     }
 
+    /**
+     * Setter
+     */
     public void setIndices(int[] indices) {
         this.indices = indices;
     }

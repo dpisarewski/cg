@@ -2,7 +2,7 @@
  * Praktikum Computergrafik, SS2014
  * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
- * Aufgabenblatt 1, Aufgabe b.
+ * Aufgabenblatt 2.
  */
 package computergrafik.aufgabe2;
 

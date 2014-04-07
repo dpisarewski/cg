@@ -35,18 +35,30 @@ public class Vertex {
         this.position   = vector;
     }
 
+    /**
+     * Getter
+     */
     public Vector3 getPosition() {
         return position;
     }
 
+    /**
+     * Setter
+     */
     public void setPosition(Vector3 position) {
         this.position = position;
     }
 
+    /**
+     * Getter
+     */
     public Vector3 getNormal() {
         return normal;
     }
 
+    /**
+     * Setter
+     */
     public void setNormal(Vector3 normal) {
         this.normal = normal;
     }
@@ -69,6 +81,12 @@ public class Vertex {
         this.normal = vec;
     }
 
+    /**
+     * Die Methode sucht aus allen Dreiecken nur die Dreiecke, die gemeinsame Punkte haben.
+     * @param triangles: Liste mit allen Dreiecken
+     * @param vertices: Liste mit alle Vertices
+     * @return: Ein Liste mit Ausgewaehlten Dreiecken
+     */
     public List<Triangle> selectTriangles(List<Triangle> triangles, List<Vertex> vertices){
         List<Triangle> triangleList = new ArrayList<Triangle>();
 
