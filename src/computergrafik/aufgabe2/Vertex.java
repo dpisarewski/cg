@@ -78,7 +78,7 @@ public class Vertex {
             }
         }
 
-        this.normal = vec;
+        normal = vec.getNormalized();
     }
 
     /**

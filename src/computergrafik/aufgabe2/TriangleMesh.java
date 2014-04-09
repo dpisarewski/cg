@@ -11,14 +11,12 @@ import computergrafik.framework.Vector3;
 
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Diese Klasse repraesentiert ein Dreiecksnetz.
  */
-public class TriangleMesh {
+public class TriangleMesh extends Node{
     /**
      * Liste von Dreiecken.
      */
@@ -29,11 +27,7 @@ public class TriangleMesh {
      */
     private List<Vertex> vertices;
 
-    /**
-     * Liste von Indices.
-     */
-    private List<Integer> indices;
-
+    private VertexArrayRenderer renderer = new VertexArrayRenderer();
 
     /**
      * Konstruktor.
@@ -67,6 +61,14 @@ public class TriangleMesh {
      */
     public void setVertices(List<Vertex> vertices) {
         this.vertices = vertices;
+    }
+
+    public VertexArrayRenderer getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(VertexArrayRenderer renderer) {
+        this.renderer = renderer;
     }
 
     /**
@@ -103,6 +105,22 @@ public class TriangleMesh {
         }
     }*/
 
+    /**
+     * Die Methode wird verwendet falls eine Transformation noetig (gewuenscht) ist.
+     * @param trans: Type und Parametern fuer Transformation.
+     */
+    public void addTransformation(TransformationNode trans){
+        transformations.add(trans);
+    }
+
+    /**
+     * Die Methode aendert den Stoff fuer Knoten.
+     * @param material: Parameter fuer Material.
+     */
+    public void setMaterial(MaterialNode material){
+        this.material = material;
+    }
+
     public void generateStructure(List<Vertex> newVertices, List<Integer> indices){
         if (this.vertices != null) {
             for (Vertex vert : newVertices) {
@@ -122,16 +140,6 @@ public class TriangleMesh {
         for(int i = 0; i < indices.size(); i += 3){
             int[] incides = new int[]{indices.get(i), indices.get(i + 1), indices.get(i + 2)};
             addTriangle(new Triangle(incides));
-        }
-    }
-
-    /**
-     * Die Methode ruft die Erzeugung von Dreiecken auf.
-     * @param nodes: Liste mit Objekte.
-     */
-    public void generateStructure(List<Node> nodes){
-        for(Node node : nodes) {
-            generateStructure(verticesFromVectors(node.getVectors()), node.getIndices());
         }
     }
 
@@ -164,15 +172,6 @@ public class TriangleMesh {
     }
 
     /**
-     * Starte das Zeichnen der erzeugten Objekte.
-     * @param gl
-     * @param renderer
-     */
-    public void draw(GL2 gl, VertexArrayRenderer renderer){
-        renderer.draw(gl);
-    }
-
-    /**
      * Die Methode gibt zurueck die Vertices, aus welche die Vektoren bestehen.
      * @param vectors
      * @return
@@ -183,6 +182,18 @@ public class TriangleMesh {
             vertices.add(new Vertex(vector));
         }
         return vertices;
+    }
+
+    @Override
+    protected void addDataToRenderer(){
+        renderer.addData(getVertices(), getTriangles());
+    }
+
+    @Override
+    protected void render(GL2 gl){
+        if(renderer != null && renderer.isSetup()) {
+            renderer.draw(gl);
+        }
     }
 
 }

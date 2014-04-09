@@ -29,6 +29,11 @@ public class Node {
     protected List<Integer> indices;
 
     /**
+     * Liste von Nodes, aus dennen Node besteht.
+     */
+    protected List<Node> children = new ArrayList<Node>();
+
+    /**
      * Transformationsobjekt, das beim Rendering verwendet wird.
      */
     protected List<TransformationNode> transformations = new ArrayList<TransformationNode>();
@@ -79,6 +84,14 @@ public class Node {
     }
 
     /**
+     * Fuegt einen Kindknoten hin.
+     * @param node: Jbjekt von Type Node.
+     */
+    public void addNode(Node node){
+        children.add(node);
+    }
+
+    /**
      * Die Methode wird verwendet falls eine Transformation noetig (gewuenscht) ist.
      * @param trans: Type und Parametern fuer Transformation.
      */
@@ -109,6 +122,8 @@ public class Node {
             material.start(gl);
         }
 
+        render(gl);
+
         // Setze die Einstellungen fuer den Stoff zurueck.
         if(material != null) {
             material.end(gl);
@@ -116,6 +131,29 @@ public class Node {
         // Setze die Einstellungen fuer die Transformation zurueck.
         for(TransformationNode trans : transformations){
             trans.end(gl);
+        }
+    }
+
+    protected void render(GL2 gl){
+        for(Node child : children){
+            child.draw(gl);
+        }
+    }
+
+    public void setupRendering(){
+        addDataToRenderer();
+
+        for(Node child: children){
+            child.addDataToRenderer();
+        }
+    }
+
+    protected void addDataToRenderer(){
+    }
+
+    public void calculateNormals(){
+        for(Node child : children){
+            child.calculateNormals();
         }
     }
 }

@@ -18,9 +18,9 @@ import java.util.List;
  */
 
 public class VertexArrayRenderer {
-    private float[] vertexArray;
-    private float[] colorsArray;
-    private float[] normalsArray;
+    private float[] vertexArray = new float[0];
+    private float[] colorsArray = new float[0];
+    private float[] normalsArray = new float[0];
     private FloatBuffer verticesBuf;
     private FloatBuffer colorsBuff;
     private FloatBuffer normalsBuff;
@@ -36,28 +36,48 @@ public class VertexArrayRenderer {
      * @param vertices
      * @param triangles
      */
-    public void setData(List<Vertex> vertices, List<Triangle> triangles){
-        vertexArray     = new float[vertices.size() * 3];
-        for(int i = 0; i < vertices.size(); i++){
-            Vertex vertex = vertices.get(i);
-            int offset = i * 3;
-            vertexArray[offset]      = vertex.getPosition().floatData()[0];
-            vertexArray[offset + 1]  = vertex.getPosition().floatData()[1];
-            vertexArray[offset + 2]  = vertex.getPosition().floatData()[2];
+    public void addData(List<Vertex> vertices, List<Triangle> triangles){
+        addVertices(vertices);
+        addNormals(triangles);
+        setColors(vertices);
+    }
+
+    private void addVertices(List<Vertex> vertices){
+        float[] newVertexArray  = new float[vertexArray.length + vertices.size() * 3];
+        for(int i = 0; i < vertexArray.length; i++){
+            newVertexArray[i] = vertexArray[i];
         }
 
-        normalsArray = new float[triangles.size() * 9];
+        for(int i = 0; i < vertices.size(); i++){
+            Vertex vertex = vertices.get(i);
+            int offset = vertexArray.length + i * 3;
+            newVertexArray[offset]      = vertex.getPosition().floatData()[0];
+            newVertexArray[offset + 1]  = vertex.getPosition().floatData()[1];
+            newVertexArray[offset + 2]  = vertex.getPosition().floatData()[2];
+        }
+        vertexArray = newVertexArray;
+    }
+
+    private void addNormals(List<Triangle> triangles){
+        float[] newNormalsArray  = new float[normalsArray.length + triangles.size() * 9];
+        for(int i = 0; i < normalsArray.length; i++){
+            newNormalsArray[i] = normalsArray[i];
+        }
+
         for(int i = 0; i < triangles.size(); i++){
-            int offset = i * 9;
+            int offset = normalsArray.length + i * 9;
             for(int j = 0; j < 3; j++){
-                normalsArray[offset]     = triangles.get(i).getNormal().floatData()[0];
-                normalsArray[offset + 1] = triangles.get(i).getNormal().floatData()[1];
-                normalsArray[offset + 2] = triangles.get(i).getNormal().floatData()[2];
+                newNormalsArray[offset]     = triangles.get(i).getNormal().floatData()[0];
+                newNormalsArray[offset + 1] = triangles.get(i).getNormal().floatData()[1];
+                newNormalsArray[offset + 2] = triangles.get(i).getNormal().floatData()[2];
                 offset += 3;
             }
         }
+        normalsArray = newNormalsArray;
+    }
 
-        colorsArray = new float[vertices.size() * 3];
+    private void setColors(List<Vertex> vertices){
+        colorsArray = new float[colorsArray.length + vertices.size() * 3];
         Arrays.fill(colorsArray, 0f);
     }
 
@@ -76,7 +96,7 @@ public class VertexArrayRenderer {
      * @return: true oder false.
      */
     public boolean isSetup(){
-        return vertexArray != null && normalsArray != null && colorsArray != null;
+        return vertexArray.length != 0 && normalsArray.length != 0 && colorsArray.length != 0;
     }
 
     /**

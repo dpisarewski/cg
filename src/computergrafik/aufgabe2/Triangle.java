@@ -83,7 +83,7 @@ public class Triangle {
      * Berechnet eine Normale für den Dreieck.
      * @return kalkulierte Normale
      */
-    public Vector3 calculateNormal(List<Vertex> vertices){
+    public void calculateNormal(List<Vertex> vertices){
         // Berechnet 2 Richtungsvektoren des Dreiecks
         Vector3 posVec1 = getVertices(vertices).get(0).getPosition();
         Vector3 posVec2 = getVertices(vertices).get(1).getPosition();
@@ -91,7 +91,6 @@ public class Triangle {
         Vector3 vec1 = posVec1.subtract(posVec2);
         Vector3 vec2 = posVec1.subtract(posVec3);
         // Berechnet ortogonalen Vektor zur Dreiecksfläche
-        this.normal = vec1.cross(vec2).getNormalized();
-        return normal;
+        normal = vec1.cross(vec2).getNormalized();
     }
 }
