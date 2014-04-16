@@ -4,7 +4,7 @@
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
  * Aufgabenblatt 1, Aufgabe b.
  */
-package computergrafik.aufgabe2;
+package computergrafik.aufgabe3;
 
 /**
  * Diese Klasse repraesentiert einen Wuerfel.
@@ -20,50 +20,39 @@ public class Cube extends Node {
         addVertex(-halfSize,halfSize,-halfSize);
         addVertex(-halfSize,halfSize,halfSize);
         addVertex(halfSize,halfSize,-halfSize);
-
         addVertex(halfSize,halfSize,-halfSize);
         addVertex(halfSize,halfSize,halfSize);
         addVertex(-halfSize,halfSize,halfSize);
-
-        addVertex(-halfSize,-halfSize,halfSize);
-        addVertex(halfSize,halfSize,halfSize);
-        addVertex(halfSize,-halfSize,halfSize);
-
-        addVertex(-halfSize,-halfSize,halfSize);
-        addVertex(-halfSize,-halfSize,-halfSize);
-        addVertex(halfSize,-halfSize,-halfSize);
-
         addVertex(-halfSize,-halfSize,halfSize);
         addVertex(-halfSize,halfSize,halfSize);
         addVertex(halfSize,halfSize,halfSize);
-
-        addVertex(-halfSize,-halfSize,-halfSize);
-        addVertex(-halfSize,halfSize,-halfSize);
-        addVertex(halfSize,halfSize,-halfSize);
-
-        addVertex(-halfSize,-halfSize,-halfSize);
-        addVertex(halfSize,halfSize,-halfSize);
-        addVertex(halfSize,-halfSize,-halfSize);
-
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(halfSize,halfSize,halfSize);
         addVertex(halfSize,-halfSize,halfSize);
-        addVertex(halfSize,halfSize,-halfSize);
-        addVertex(halfSize,-halfSize,-halfSize);
-
         addVertex(-halfSize,-halfSize,halfSize);
-        addVertex(-halfSize,halfSize,halfSize);
-        addVertex(-halfSize,halfSize,-halfSize);
-
-        addVertex(-halfSize,-halfSize,halfSize);
-        addVertex(-halfSize,halfSize,-halfSize);
         addVertex(-halfSize,-halfSize,-halfSize);
-
+        addVertex(halfSize,-halfSize,-halfSize);
         addVertex(-halfSize,-halfSize,halfSize);
         addVertex(halfSize,-halfSize,-halfSize);
         addVertex(halfSize,-halfSize,halfSize);
-
+        addVertex(-halfSize,-halfSize,-halfSize);
+        addVertex(-halfSize,halfSize,-halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,-halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,-halfSize);
         addVertex(halfSize,-halfSize,halfSize);
         addVertex(halfSize,halfSize,halfSize);
         addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,halfSize,halfSize);
+        addVertex(-halfSize,halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,-halfSize);
     }
 
 }
