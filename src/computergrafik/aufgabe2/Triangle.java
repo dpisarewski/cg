@@ -51,16 +51,10 @@ public class Triangle {
         this.normal = normal;
     }
 
-    /**
-     * Getter
-     */
     public int[] getIndices() {
         return indices;
     }
 
-    /**
-     * Setter
-     */
     public void setIndices(int[] indices) {
         this.indices = indices;
     }

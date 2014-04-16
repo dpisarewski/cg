@@ -6,11 +6,6 @@
  */
 package computergrafik.aufgabe2;
 
-import computergrafik.framework.Vector3;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Diese Klasse repraesentiert einen Ring. Der Ring besitzt zwei Parameter: Radius und Dicke.
  */
@@ -54,12 +49,12 @@ public class Ring extends Node {
             x2 =    (float) Math.cos(Math.toRadians(i + step)) * radius;
             z1 =    (float) Math.sin(Math.toRadians(i)) * radius;
             z2 =    (float) Math.sin(Math.toRadians(i + step)) * radius;
-            vectors.add(new Vector3(x1, width,  z1));
-            vectors.add(new Vector3(x1, -width, z1));
-            vectors.add(new Vector3(x2, -width, z2));
-            vectors.add(new Vector3(x1, width,  z1));
-            vectors.add(new Vector3(x2, -width, z2));
-            vectors.add(new Vector3(x2, width,  z2));
+            vertices.add(new Vertex(x1, width,  z1));
+            vertices.add(new Vertex(x1, -width, z1));
+            vertices.add(new Vertex(x2, -width, z2));
+            vertices.add(new Vertex(x1, width,  z1));
+            vertices.add(new Vertex(x2, -width, z2));
+            vertices.add(new Vertex(x2, width,  z2));
         }
         for(int j = 0; j < sections * 6; j++){
             indices.add(j);

@@ -7,8 +7,6 @@ package computergrafik.aufgabe2;
  * Aufgabenblatt 2, Aufgabe a.
  */
 
-import computergrafik.framework.Vector3;
-
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +20,6 @@ public class TriangleMesh extends Node{
      */
     private List<Triangle> triangles = new ArrayList<Triangle>();
 
-    /**
-     * Liste von Punkten.
-     */
-    private List<Vertex> vertices;
-
     private VertexArrayRenderer renderer = new VertexArrayRenderer();
 
     /**
@@ -35,32 +28,12 @@ public class TriangleMesh extends Node{
     public TriangleMesh(){
     }
 
-    /**
-     * Getter
-     */
     public List<Triangle> getTriangles() {
         return triangles;
     }
 
-    /**
-     * Setter
-     */
     public void setTriangles(List<Triangle> triangles) {
         this.triangles = triangles;
-    }
-
-    /**
-     * Getter
-     */
-    public List<Vertex> getVertices() {
-        return vertices;
-    }
-
-    /**
-     * setter
-     */
-    public void setVertices(List<Vertex> vertices) {
-        this.vertices = vertices;
     }
 
     public VertexArrayRenderer getRenderer() {
@@ -69,18 +42,6 @@ public class TriangleMesh extends Node{
 
     public void setRenderer(VertexArrayRenderer renderer) {
         this.renderer = renderer;
-    }
-
-    /**
-     * Ergaenzt den Vektor in die Liste.
-     * @param vertex
-     */
-    public void addVertex(Vertex vertex){
-        vertices.add(vertex);
-    }
-
-    public void addIndices(Integer index){
-        indices.add(index);
     }
 
     /**
@@ -121,22 +82,10 @@ public class TriangleMesh extends Node{
         this.material = material;
     }
 
-    public void generateStructure(List<Vertex> newVertices, List<Integer> indices){
-        if (this.vertices != null) {
-            for (Vertex vert : newVertices) {
-                this.vertices.add(vert);
-            }
-        }else{
-            this.vertices = newVertices;
-        }
+    public void generateStructure(List<Vertex> newVertices, List<Integer> newIndices){
+        vertices.addAll(newVertices);
+        indices.addAll(newIndices);
 
-        if(this.indices != null) {
-            for (Integer ind : indices) {
-                this.indices.add(ind);
-            }
-        }else{
-            this.indices = indices;
-        }
         for(int i = 0; i < indices.size(); i += 3){
             int[] incides = new int[]{indices.get(i), indices.get(i + 1), indices.get(i + 2)};
             addTriangle(new Triangle(incides));
@@ -148,14 +97,7 @@ public class TriangleMesh extends Node{
      * @param node:
      */
     public void generateStructure(Node node){
-        generateStructure(verticesFromVectors(node.getVectors()), node.getIndices());
-    }
-
-    /**
-     * Getter
-     */
-    public List<Integer> getIndices(){
-        return indices;
+        generateStructure(node.getVertices(), node.getIndices());
     }
 
     /**
@@ -169,19 +111,6 @@ public class TriangleMesh extends Node{
         for(Vertex vertex : vertices){
             vertex.calculateNormal(vertex.selectTriangles(triangles, vertices));
         }
-    }
-
-    /**
-     * Die Methode gibt zurueck die Vertices, aus welche die Vektoren bestehen.
-     * @param vectors
-     * @return
-     */
-    public static List<Vertex> verticesFromVectors(List<Vector3> vectors){
-        List<Vertex> vertices = new ArrayList<Vertex>();
-        for(Vector3 vector : vectors){
-            vertices.add(new Vertex(vector));
-        }
-        return vertices;
     }
 
     @Override

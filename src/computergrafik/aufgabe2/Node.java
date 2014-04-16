@@ -6,10 +6,6 @@
  */
 package computergrafik.aufgabe2;
 
-import computergrafik.aufgabe2.TransformationNode;
-import computergrafik.framework.Vector3;
-
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +17,12 @@ public class Node {
     /**
      * Liste von Vektoren, aus dennen Node besteht.
      */
-    protected List<Vector3> vectors;
+    protected List<Vertex> vertices = new ArrayList<Vertex>();
 
     /**
      * Liste von Indizes, die Dreiecke beschreibt.
      */
-    protected List<Integer> indices;
+    protected List<Integer> indices = new ArrayList<Integer>();
 
     /**
      * Liste von Nodes, aus dennen Node besteht.
@@ -47,24 +43,22 @@ public class Node {
      * Konstruktor.
      */
     public Node(){
-        this.vectors = new ArrayList<Vector3>();
-        this.indices = new ArrayList<Integer>();
     }
 
     /**
      * Alternativ Konstruktor.
-     * @param vectors
+     * @param vertices
      */
-    public Node(List<Vector3> vectors){
-        this.vectors = vectors;
+    public Node(List<Vertex> vertices){
+        this.vertices = vertices;
     }
 
-    public List<Vector3> getVectors() {
-        return vectors;
+    public List<Vertex> getVertices() {
+        return vertices;
     }
 
-    public void setVectors(List<Vector3> vectors) {
-        this.vectors = vectors;
+    public void setVertices(List<Vertex> vertices) {
+        this.vertices = vertices;
     }
 
     public List<Integer> getIndices() {
@@ -77,10 +71,11 @@ public class Node {
 
     /**
      * Fuegt einen Vector fuer Knoten (Figur) hin.
-     * @param vector: Objekt von Type Vector3.
+     * @param vector: Objekt von Type Vertex.
      */
-    public void addVector(Vector3 vector){
-        vectors.add(vector);
+    public void addVertex(float x, float y, float z){
+        vertices.add(new Vertex(x, y, z));
+        indices.add(vertices.size() - 1);
     }
 
     /**

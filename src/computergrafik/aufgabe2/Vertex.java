@@ -10,7 +10,6 @@ package computergrafik.aufgabe2;
 import computergrafik.framework.Vector3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,30 +34,18 @@ public class Vertex {
         this.position   = vector;
     }
 
-    /**
-     * Getter
-     */
     public Vector3 getPosition() {
         return position;
     }
 
-    /**
-     * Setter
-     */
     public void setPosition(Vector3 position) {
         this.position = position;
     }
 
-    /**
-     * Getter
-     */
     public Vector3 getNormal() {
         return normal;
     }
 
-    /**
-     * Setter
-     */
     public void setNormal(Vector3 normal) {
         this.normal = normal;
     }

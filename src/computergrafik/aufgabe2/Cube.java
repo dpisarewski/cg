@@ -6,11 +6,6 @@
  */
 package computergrafik.aufgabe2;
 
-import computergrafik.framework.Vector3;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Diese Klasse repraesentiert einen Wuerfel.
  *
@@ -24,48 +19,42 @@ public class Cube extends Node {
      */
     public void generateNodes(float size){
         float halfSize = size/2;
-        addVector(-halfSize,halfSize,-halfSize);
-        addVector(-halfSize,halfSize,halfSize);
-        addVector(halfSize,halfSize,-halfSize);
-        addVector(halfSize,halfSize,-halfSize);
-        addVector(halfSize,halfSize,halfSize);
-        addVector(-halfSize,halfSize,halfSize);
-        addVector(-halfSize,-halfSize,halfSize);
-        addVector(-halfSize,halfSize,halfSize);
-        addVector(halfSize,halfSize,halfSize);
-        addVector(-halfSize,-halfSize,halfSize);
-        addVector(halfSize,halfSize,halfSize);
-        addVector(halfSize,-halfSize,halfSize);
-        addVector(-halfSize,-halfSize,halfSize);
-        addVector(-halfSize,-halfSize,-halfSize);
-        addVector(halfSize,-halfSize,-halfSize);
-        addVector(-halfSize,-halfSize,halfSize);
-        addVector(halfSize,-halfSize,-halfSize);
-        addVector(halfSize,-halfSize,halfSize);
-        addVector(-halfSize,-halfSize,-halfSize);
-        addVector(-halfSize,halfSize,-halfSize);
-        addVector(halfSize,halfSize,-halfSize);
-        addVector(-halfSize,-halfSize,-halfSize);
-        addVector(halfSize,halfSize,-halfSize);
-        addVector(halfSize,-halfSize,-halfSize);
-        addVector(halfSize,-halfSize,halfSize);
-        addVector(halfSize,halfSize,halfSize);
-        addVector(halfSize,halfSize,-halfSize);
-        addVector(halfSize,-halfSize,halfSize);
-        addVector(halfSize,halfSize,-halfSize);
-        addVector(halfSize,-halfSize,-halfSize);
-        addVector(-halfSize,-halfSize,halfSize);
-        addVector(-halfSize,halfSize,halfSize);
-        addVector(-halfSize,halfSize,-halfSize);
-        addVector(-halfSize,-halfSize,halfSize);
-        addVector(-halfSize,halfSize,-halfSize);
-        addVector(-halfSize,-halfSize,-halfSize);
-    }
-
-    private void addVector(float x, float y, float z){
-        vectors.add(new Vector3(x, y, z));
-        indices.add(lastIndex);
-        lastIndex++;
+        addVertex(-halfSize,halfSize,-halfSize);
+        addVertex(-halfSize,halfSize,halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,halfSize,halfSize);
+        addVertex(-halfSize,halfSize,halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,halfSize,halfSize);
+        addVertex(halfSize,halfSize,halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(halfSize,halfSize,halfSize);
+        addVertex(halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,-halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(halfSize,-halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,-halfSize,-halfSize);
+        addVertex(-halfSize,halfSize,-halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,-halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,halfSize);
+        addVertex(halfSize,halfSize,halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,halfSize);
+        addVertex(halfSize,halfSize,-halfSize);
+        addVertex(halfSize,-halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,halfSize,halfSize);
+        addVertex(-halfSize,halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,halfSize);
+        addVertex(-halfSize,halfSize,-halfSize);
+        addVertex(-halfSize,-halfSize,-halfSize);
     }
 
 }
