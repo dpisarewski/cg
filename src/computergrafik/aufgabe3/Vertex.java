@@ -11,6 +11,8 @@ import computergrafik.framework.Vector3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Diese Klasse repraesentiert einen Punkt
@@ -70,21 +72,9 @@ public class Vertex {
 
     /**
      * Die Methode sucht aus allen Dreiecken nur die Dreiecke, die gemeinsame Punkte haben.
-     * @param triangles: Liste mit allen Dreiecken
-     * @param vertices: Liste mit alle Vertices
      * @return: Ein Liste mit Ausgewaehlten Dreiecken
      */
-    public List<Triangle> selectTriangles(List<Triangle> triangles, List<Vertex> vertices){
-        List<Triangle> triangleList = new ArrayList<Triangle>();
-
-        for(Triangle triangle : triangles){
-            for(int index : triangle.getIndices()){
-                if(index == vertices.indexOf(this)){
-                    triangleList.add(triangle);
-                }
-            }
-        }
-
-        return triangleList;
+    public List<Triangle> selectTriangles(Map<Vertex, Set<Triangle>> associations){
+        return new ArrayList<>(associations.get(this));
     }
 }

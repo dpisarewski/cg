@@ -8,8 +8,7 @@ package computergrafik.aufgabe3;
  */
 
 import javax.media.opengl.GL2;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Diese Klasse repraesentiert ein Dreiecksnetz.
@@ -19,6 +18,8 @@ public class TriangleMesh extends Node {
      * Liste von Dreiecken.
      */
     private List<Triangle> triangles = new ArrayList<Triangle>();
+
+    private Map<Vertex, Set<Triangle>> assotiations = new HashMap();
 
     private VertexArrayRenderer renderer = new VertexArrayRenderer();
 
@@ -100,6 +101,19 @@ public class TriangleMesh extends Node {
         generateStructure(node.getVertices(), node.getIndices());
     }
 
+    public void generateStructure(){
+        for(Triangle triangle: triangles){
+            for(Vertex vertex : triangle.getVertices(vertices)){
+                Set<Triangle> newSet = assotiations.get(vertex);
+                if(newSet == null){
+                    newSet = new HashSet<Triangle>();
+                }
+                newSet.add(triangle);
+                assotiations.put(vertex, newSet);
+            }
+        }
+    }
+
     /**
      * Die Methode startet die Berechnung von Normalen fuer Dreiecke und Vertices.
      */
@@ -109,7 +123,7 @@ public class TriangleMesh extends Node {
         }
 
         for(Vertex vertex : vertices){
-            //vertex.calculateNormal(vertex.selectTriangles(triangles, vertices));
+            vertex.calculateNormal(vertex.selectTriangles(assotiations));
         }
     }
 

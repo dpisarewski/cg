@@ -38,16 +38,10 @@ public class Triangle {
         this.indices = indices;
     }
 
-    /**
-     * Getter
-     */
     public Vector3 getNormal() {
         return normal;
     }
 
-    /**
-     * Setter
-     */
     public void setNormal(Vector3 normal) {
         this.normal = normal;
     }

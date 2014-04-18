@@ -40,15 +40,7 @@ public class MaterialNode {
      */
     public void start(GL2 gl){
         gl.glGetMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
-
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, color, 0);
-        float specularColor[] = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
-        // Use smaller values when using multiple light sources!
-        float ambientColor[] = new float[] { 0.2f * color[0], 0.2f * color[1], 0.2f * color[2], 1.0f };
-        float shininess[] = { 20.0f };
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_AMBIENT, ambientColor, 0);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_SPECULAR, specularColor, 0);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_SHININESS, shininess, 0);
     }
 
     /**

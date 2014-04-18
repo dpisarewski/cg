@@ -33,7 +33,7 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
      */
     @Override
     public void drawGlContent(GL2 gl) {
-        setGlMaterial(gl, 0.25f, 0.25f, 0.75f);
+        setGlMaterial(gl, 0.25f, 0.25f, 0.25f);
         scene.draw(gl);
     }
 
@@ -43,6 +43,7 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
         importer.load();
         mesh.setVertices(importer.getVertices());
         mesh.setTriangles(importer.getTriangles());
+        mesh.generateStructure();
         scene.addNode(mesh);
 
         mesh = new TriangleMesh();
@@ -50,6 +51,7 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
         importer.load();
         mesh.setVertices(importer.getVertices());
         mesh.setTriangles(importer.getTriangles());
+        mesh.generateStructure();
         mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 1, 0, 0));
         scene.addNode(mesh);
 
@@ -58,6 +60,7 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
         importer.load();
         mesh.setVertices(importer.getVertices());
         mesh.setTriangles(importer.getTriangles());
+        mesh.generateStructure();
         mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 0, 1, 0));
         scene.addNode(mesh);
 
