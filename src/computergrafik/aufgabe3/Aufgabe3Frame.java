@@ -64,6 +64,15 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
         mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 0, 1, 0));
         scene.addNode(mesh);
 
+        mesh = new TriangleMesh();
+        importer = new ObjImporter("data/aufgabe3/sphere.obj");
+        importer.load();
+        mesh.setVertices(importer.getVertices());
+        mesh.setTriangles(importer.getTriangles());
+        mesh.generateStructure();
+        mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 1, 1, 0));
+        scene.addNode(mesh);
+
         scene.calculateNormals();
         scene.setupRendering();
     }
