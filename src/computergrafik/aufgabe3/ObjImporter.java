@@ -39,7 +39,7 @@ public class ObjImporter{
             }
             br.close();
 
-            List<Vertex> newVertices = new ArrayList<>();
+            List<Vertex> newVertices = new ArrayList<Vertex>();
             for(int i = 0; i < triangles.size(); i++){
                 newVertices.addAll(triangles.get(i).getVertices(vertices));
                 triangles.set(i, new Triangle(new int[]{i * 3, i * 3 + 1, i * 3 + 2}));
