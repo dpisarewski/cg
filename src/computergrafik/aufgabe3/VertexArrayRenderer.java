@@ -74,8 +74,8 @@ public class VertexArrayRenderer {
                 for(int i = 0; i < vertices.size(); i++){
                     int offset = normalsArray.length + i * 3;
                     newNormalsArray[offset]     = vertices.get(i).getNormal().floatData()[0];
-                    newNormalsArray[offset + 1] = vertices.get(i).getNormal().floatData()[0];
-                    newNormalsArray[offset + 2] = vertices.get(i).getNormal().floatData()[0];
+                    newNormalsArray[offset + 1] = vertices.get(i).getNormal().floatData()[1];
+                    newNormalsArray[offset + 2] = vertices.get(i).getNormal().floatData()[2];
                 }
                 break;
         }
