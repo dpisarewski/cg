@@ -6,7 +6,6 @@
  */
 package computergrafik.aufgabe3;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.fixedfunc.GLLightingFunc;
 import java.nio.FloatBuffer;
@@ -39,8 +38,8 @@ public class MaterialNode {
      * @param gl: Objekt, fuer den die Aenderungen vorgenommen werden sollen.
      */
     public void start(GL2 gl){
-        gl.glGetMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, color, 0);
+        gl.glGetMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, color, 0);
     }
 
     /**
@@ -48,6 +47,6 @@ public class MaterialNode {
      * @param gl: Objekt, fuer den die Aenderungen vorgenommen werden sollen.
      */
     public void end(GL2 gl){
-        gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
     }
 }

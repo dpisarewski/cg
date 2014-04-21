@@ -71,7 +71,6 @@ public class Node {
 
     /**
      * Fuegt einen Vector fuer Knoten (Figur) hin.
-     * @param vector: Objekt von Type Vertex.
      */
     public void addVertex(float x, float y, float z){
         vertices.add(new Vertex(x, y, z));

@@ -38,38 +38,19 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
     }
 
     private void construct(){
-        TriangleMesh mesh = new TriangleMesh();
-        ObjImporter importer = new ObjImporter("data/aufgabe3/bunny.obj");
-        importer.load();
-        mesh.setVertices(importer.getVertices());
-        mesh.setTriangles(importer.getTriangles());
-        mesh.generateStructure();
-        scene.addNode(mesh);
+        TriangleMesh mesh;
 
-        mesh = new TriangleMesh();
-        importer = new ObjImporter("data/aufgabe3/cube.obj");
-        importer.load();
-        mesh.setVertices(importer.getVertices());
-        mesh.setTriangles(importer.getTriangles());
-        mesh.generateStructure();
+        scene.addNode(ObjImporter.loadMesh("data/aufgabe3/bunny.obj"));
+
+        mesh = ObjImporter.loadMesh("data/aufgabe3/cube.obj");
         mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 1, 0, 0));
         scene.addNode(mesh);
 
-        mesh = new TriangleMesh();
-        importer = new ObjImporter("data/aufgabe3/teddy.obj");
-        importer.load();
-        mesh.setVertices(importer.getVertices());
-        mesh.setTriangles(importer.getTriangles());
-        mesh.generateStructure();
+        mesh = ObjImporter.loadMesh("data/aufgabe3/teddy.obj");
         mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 0, 1, 0));
         scene.addNode(mesh);
 
-        mesh = new TriangleMesh();
-        importer = new ObjImporter("data/aufgabe3/sphere.obj");
-        importer.load();
-        mesh.setVertices(importer.getVertices());
-        mesh.setTriangles(importer.getTriangles());
-        mesh.generateStructure();
+        mesh = ObjImporter.loadMesh("data/aufgabe3/sphere.obj");
         mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 1, 1, 0));
         scene.addNode(mesh);
 
