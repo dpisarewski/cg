@@ -18,9 +18,6 @@ public class VertexArrayRenderer {
     private float[] vertexArray = new float[0];
     private float[] colorsArray = new float[0];
     private float[] normalsArray = new float[0];
-    private FloatBuffer verticesBuf;
-    private FloatBuffer colorsBuff;
-    private FloatBuffer normalsBuff;
 
     public VertexArrayRenderer(){
     }
@@ -35,7 +32,7 @@ public class VertexArrayRenderer {
      */
     public void addData(List<Vertex> vertices, List<Triangle> triangles){
         addVertices(vertices);
-        addNormals(triangles, vertices, ShadingType.GOURAUD);
+        addNormals(triangles, vertices, ShadingType.FLAT);
         setColors(vertices);
     }
 
@@ -57,30 +54,35 @@ public class VertexArrayRenderer {
 
     private void addNormals(List<Triangle> triangles, List<Vertex> vertices, ShadingType type){
         float[] newNormalsArray = extendArray(normalsArray, triangles.size() * 9);
-
         switch(type){
-            case FLAT:
-                for(int i = 0; i < triangles.size(); i++){
-                    int offset = normalsArray.length + i * 9;
-                    for(int j = 0; j < 3; j++){
-                        newNormalsArray[offset]     = triangles.get(i).getNormal().floatData()[0];
-                        newNormalsArray[offset + 1] = triangles.get(i).getNormal().floatData()[1];
-                        newNormalsArray[offset + 2] = triangles.get(i).getNormal().floatData()[2];
-                        offset += 3;
-                    }
-                }
-                break;
-            case GOURAUD:
-                for(int i = 0; i < vertices.size(); i++){
-                    int offset = normalsArray.length + i * 3;
-                    newNormalsArray[offset]     = vertices.get(i).getNormal().floatData()[0];
-                    newNormalsArray[offset + 1] = vertices.get(i).getNormal().floatData()[1];
-                    newNormalsArray[offset + 2] = vertices.get(i).getNormal().floatData()[2];
-                }
-                break;
+            case FLAT:      addFlatNormals(newNormalsArray, normalsArray.length, triangles); break;
+            case GOURAUD:   addGouraudNormals(newNormalsArray, normalsArray.length, vertices); break;
         }
-
         normalsArray = newNormalsArray;
+    }
+
+    private void addFlatNormals(float[] array, int from, List<Triangle> triangles){
+        for(int i = 0; i < triangles.size(); i++){
+            int offset = from + i * 9;
+
+            for(int j = 0; j < 3; j++){
+                pushNormalValues(array, offset, triangles.get(i).getNormal().floatData());
+                offset += 3;
+            }
+        }
+    }
+
+    private void addGouraudNormals(float[] array, int from, List<Vertex> vertices){
+        for(int i = 0; i < vertices.size(); i++){
+            int offset = from + i * 3;
+            pushNormalValues(array, offset, vertices.get(i).getNormal().floatData());
+        }
+    }
+
+    private void pushNormalValues(float[] array, int offset, float[] values){
+        for(int i = 0; i < values.length; i++){
+            array[offset + i] = values[i];
+        }
     }
 
     private void setColors(List<Vertex> vertices){
@@ -103,7 +105,7 @@ public class VertexArrayRenderer {
      * @return: true oder false.
      */
     public boolean isSetup(){
-        return vertexArray.length != 0 && colorsArray.length != 0;
+        return vertexArray.length != 0 && normalsArray.length != 0 && colorsArray.length != 0;
     }
 
     /**
@@ -115,9 +117,9 @@ public class VertexArrayRenderer {
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
         gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
 
-        verticesBuf = createBuffer(vertexArray);
-        colorsBuff  = createBuffer(colorsArray);
-        normalsBuff = createBuffer(normalsArray);
+        FloatBuffer verticesBuf = createBuffer(vertexArray);;
+        FloatBuffer colorsBuff  = createBuffer(colorsArray);
+        FloatBuffer normalsBuff = createBuffer(normalsArray);
 
         gl.glVertexPointer(3, GL2.GL_FLOAT, 0, verticesBuf);
         gl.glNormalPointer(GL2.GL_FLOAT, 0, normalsBuff);
@@ -147,10 +149,6 @@ public class VertexArrayRenderer {
     }
 
     private float[] extendArray(float[] array, int size){
-        float[] newArray  = new float[array.length + size];
-        for(int i = 0; i < array.length; i++){
-            newArray[i] = array[i];
-        }
-        return newArray;
+        return Arrays.copyOf(array, array.length + size);
     }
 }

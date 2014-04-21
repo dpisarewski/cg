@@ -105,9 +105,11 @@ public class TriangleMesh extends Node {
         for(Triangle triangle: triangles){
             for(Vertex vertex : triangle.getVertices(vertices)){
                 Set<Triangle> newSet = assotiations.get(vertex);
+
                 if(newSet == null){
                     newSet = new HashSet<Triangle>();
                 }
+
                 newSet.add(triangle);
                 assotiations.put(vertex, newSet);
             }

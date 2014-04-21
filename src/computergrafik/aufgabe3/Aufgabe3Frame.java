@@ -40,7 +40,9 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
     private void construct(){
         TriangleMesh mesh;
 
-        scene.addNode(ObjImporter.loadMesh("data/aufgabe3/bunny.obj"));
+        mesh = ObjImporter.loadMesh("data/aufgabe3/bunny.obj");
+        mesh.setMaterial(new MaterialNode(0f, 0f, 1, 1));
+        scene.addNode(mesh);
 
         mesh = ObjImporter.loadMesh("data/aufgabe3/cube.obj");
         mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 1, 0, 0));
@@ -48,10 +50,12 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
 
         mesh = ObjImporter.loadMesh("data/aufgabe3/teddy.obj");
         mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 0, 1, 0));
+        mesh.setMaterial(new MaterialNode(0, .5f, 0, 1));
         scene.addNode(mesh);
 
         mesh = ObjImporter.loadMesh("data/aufgabe3/sphere.obj");
         mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 1, 1, 0));
+        mesh.setMaterial(new MaterialNode(1, 0, 0, 1));
         scene.addNode(mesh);
 
         scene.calculateNormals();
