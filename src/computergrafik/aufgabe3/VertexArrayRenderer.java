@@ -18,8 +18,16 @@ public class VertexArrayRenderer {
     private float[] vertexArray = new float[0];
     private float[] colorsArray = new float[0];
     private float[] normalsArray = new float[0];
+    private ShadingType shadingType = ShadingType.FLAT;
 
-    public VertexArrayRenderer(){
+    public VertexArrayRenderer(){}
+
+    public ShadingType getShadingType() {
+        return shadingType;
+    }
+
+    public void setShadingType(ShadingType shadingType) {
+        this.shadingType = shadingType;
     }
 
     /**
@@ -32,7 +40,7 @@ public class VertexArrayRenderer {
      */
     public void addData(List<Vertex> vertices, List<Triangle> triangles){
         addVertices(vertices);
-        addNormals(triangles, vertices, ShadingType.FLAT);
+        addNormals(triangles, vertices);
         setColors(vertices);
     }
 
@@ -52,9 +60,9 @@ public class VertexArrayRenderer {
         vertexArray = newVertexArray;
     }
 
-    private void addNormals(List<Triangle> triangles, List<Vertex> vertices, ShadingType type){
+    private void addNormals(List<Triangle> triangles, List<Vertex> vertices){
         float[] newNormalsArray = extendArray(normalsArray, triangles.size() * 9);
-        switch(type){
+        switch(shadingType){
             case FLAT:      addFlatNormals(newNormalsArray, normalsArray.length, triangles); break;
             case GOURAUD:   addGouraudNormals(newNormalsArray, normalsArray.length, vertices); break;
         }
