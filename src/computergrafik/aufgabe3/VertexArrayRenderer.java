@@ -22,9 +22,6 @@ public class VertexArrayRenderer {
     private FloatBuffer colorsBuff;
     private FloatBuffer normalsBuff;
 
-    public static final int FLAT_SHADING = 0;
-    public static final int GOURAUD_SHADING = 1;
-
     public VertexArrayRenderer(){
     }
 
@@ -38,7 +35,7 @@ public class VertexArrayRenderer {
      */
     public void addData(List<Vertex> vertices, List<Triangle> triangles){
         addVertices(vertices);
-        addNormals(triangles, vertices, GOURAUD_SHADING);
+        addNormals(triangles, vertices, ShadingType.GOURAUD);
         setColors(vertices);
     }
 
@@ -58,28 +55,29 @@ public class VertexArrayRenderer {
         vertexArray = newVertexArray;
     }
 
-    private void addNormals(List<Triangle> triangles, List<Vertex> vertices, int type){
-        float[] newNormalsArray = new float[0];
+    private void addNormals(List<Triangle> triangles, List<Vertex> vertices, ShadingType type){
+        float[] newNormalsArray = extendArray(normalsArray, triangles.size() * 9);
 
-        if(type == FLAT_SHADING){
-            newNormalsArray = extendArray(normalsArray, triangles.size() * 9);
-            for(int i = 0; i < triangles.size(); i++){
-                int offset = normalsArray.length + i * 9;
-                for(int j = 0; j < 3; j++){
-                    newNormalsArray[offset]     = triangles.get(i).getNormal().floatData()[0];
-                    newNormalsArray[offset + 1] = triangles.get(i).getNormal().floatData()[1];
-                    newNormalsArray[offset + 2] = triangles.get(i).getNormal().floatData()[2];
-                    offset += 3;
+        switch(type){
+            case FLAT:
+                for(int i = 0; i < triangles.size(); i++){
+                    int offset = normalsArray.length + i * 9;
+                    for(int j = 0; j < 3; j++){
+                        newNormalsArray[offset]     = triangles.get(i).getNormal().floatData()[0];
+                        newNormalsArray[offset + 1] = triangles.get(i).getNormal().floatData()[1];
+                        newNormalsArray[offset + 2] = triangles.get(i).getNormal().floatData()[2];
+                        offset += 3;
+                    }
                 }
-            }
-        }else if(type == GOURAUD_SHADING){
-            newNormalsArray = extendArray(normalsArray, vertices.size() * 3);
-            for(int i = 0; i < vertices.size(); i++){
-                int offset = normalsArray.length + i * 3;
-                newNormalsArray[offset]     = vertices.get(i).getNormal().floatData()[0];
-                newNormalsArray[offset + 1] = vertices.get(i).getNormal().floatData()[0];
-                newNormalsArray[offset + 2] = vertices.get(i).getNormal().floatData()[0];
-            }
+                break;
+            case GOURAUD:
+                for(int i = 0; i < vertices.size(); i++){
+                    int offset = normalsArray.length + i * 3;
+                    newNormalsArray[offset]     = vertices.get(i).getNormal().floatData()[0];
+                    newNormalsArray[offset + 1] = vertices.get(i).getNormal().floatData()[0];
+                    newNormalsArray[offset + 2] = vertices.get(i).getNormal().floatData()[0];
+                }
+                break;
         }
 
         normalsArray = newNormalsArray;

@@ -13,15 +13,9 @@ import javax.media.opengl.GL2;
  */
 public class TransformationNode {
     /**
-     * Enum Werte für Transformationstyp
-     */
-    public static final int SCALE = 0;
-    public static final int TRANSLATION = 1;
-
-    /**
      * Transformationstyp
      */
-    private int type;
+    private TransformationType type;
 
     /**
      * Parameter für Transformation
@@ -37,7 +31,7 @@ public class TransformationNode {
      * @param b: Scalierung/Verschiebung in y-Richtung.
      * @param c: Scalierung/Verschiebung in z-Richtung.
      */
-    public TransformationNode(int type, float a, float b, float c){
+    public TransformationNode(TransformationType type, float a, float b, float c){
         this.type = type;
         this.a = a;
         this.b = b;
@@ -56,7 +50,7 @@ public class TransformationNode {
             case SCALE :
                 gl.glScalef(a, b, c);
                 break;
-            case TRANSLATION :
+            case TRANSLATE :
                 gl.glTranslatef(a, b, c);
                 break;
         }

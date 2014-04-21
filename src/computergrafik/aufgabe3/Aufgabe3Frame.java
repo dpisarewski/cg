@@ -43,15 +43,15 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
         scene.addNode(ObjImporter.loadMesh("data/aufgabe3/bunny.obj"));
 
         mesh = ObjImporter.loadMesh("data/aufgabe3/cube.obj");
-        mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 1, 0, 0));
+        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 1, 0, 0));
         scene.addNode(mesh);
 
         mesh = ObjImporter.loadMesh("data/aufgabe3/teddy.obj");
-        mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 0, 1, 0));
+        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 0, 1, 0));
         scene.addNode(mesh);
 
         mesh = ObjImporter.loadMesh("data/aufgabe3/sphere.obj");
-        mesh.addTransformation(new TransformationNode(TransformationNode.TRANSLATION, 1, 1, 0));
+        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 1, 1, 0));
         scene.addNode(mesh);
 
         scene.calculateNormals();
