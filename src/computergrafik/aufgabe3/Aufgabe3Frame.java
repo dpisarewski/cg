@@ -37,6 +37,9 @@ public class Aufgabe3Frame extends ComputergrafikFrame {
         scene.draw(gl);
     }
 
+    /**
+     * Erstellt Meshes und eine Szene aus diesen Meshes
+     */
     private void construct(){
         TriangleMesh mesh;
 

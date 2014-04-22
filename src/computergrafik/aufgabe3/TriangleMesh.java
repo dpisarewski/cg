@@ -4,7 +4,7 @@ package computergrafik.aufgabe3;
  * Praktikum Computergrafik, SS2014
  * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
- * Aufgabenblatt 2, Aufgabe a.
+ * Aufgabenblatt 3
  */
 
 import javax.media.opengl.GL2;
@@ -19,8 +19,14 @@ public class TriangleMesh extends Node {
      */
     private List<Triangle> triangles = new ArrayList<Triangle>();
 
+    /**
+     * Hashmap, der Vertices mit Triangles assoziiert
+     */
     private Map<Vertex, Set<Triangle>> assotiations = new HashMap();
 
+    /**
+     * Renderer, der Daten und Einstellungen für ein Mesh enthält
+     */
     private VertexArrayRenderer renderer = new VertexArrayRenderer();
 
     /**
@@ -54,20 +60,6 @@ public class TriangleMesh extends Node {
     }
 
     /**
-     * Die Methode generiert die Dreiecken aus 3 Punkten.
-     * @param vertices
-     * @param indices
-
-    public void generateStructure(List<Vertex> vertices, List<Integer> indices){
-        this.vertices = vertices;
-        this.indices  = indices;
-        for(int i = 0; i < indices.size(); i += 3){
-            int[] incides = new int[]{indices.get(i), indices.get(i + 1), indices.get(i + 2)};
-            addTriangle(new Triangle(incides));
-        }
-    }*/
-
-    /**
      * Die Methode wird verwendet falls eine Transformation noetig (gewuenscht) ist.
      * @param trans: Type und Parametern fuer Transformation.
      */
@@ -83,35 +75,20 @@ public class TriangleMesh extends Node {
         this.material = material;
     }
 
-    public void generateStructure(List<Vertex> newVertices, List<Integer> newIndices){
-        vertices.addAll(newVertices);
-        indices.addAll(newIndices);
-
-        for(int i = 0; i < indices.size(); i += 3){
-            int[] incides = new int[]{indices.get(i), indices.get(i + 1), indices.get(i + 2)};
-            addTriangle(new Triangle(incides));
-        }
-    }
-
     /**
-     * Die Methode ruft die Erzeugung von Dreiecken auf.
-     * @param node:
+     * Speichert zu jedem Vertex Triangles, die ihn enthalten in einem Map
      */
-    public void generateStructure(Node node){
-        generateStructure(node.getVertices(), node.getIndices());
-    }
-
     public void generateStructure(){
         for(Triangle triangle: triangles){
             for(Vertex vertex : triangle.getVertices(vertices)){
-                Set<Triangle> newSet = assotiations.get(vertex);
+                Set<Triangle> set = assotiations.get(vertex);
 
-                if(newSet == null){
-                    newSet = new HashSet<Triangle>();
+                if(set == null){
+                    set = new HashSet<Triangle>();
+                    assotiations.put(vertex, set);
                 }
 
-                newSet.add(triangle);
-                assotiations.put(vertex, newSet);
+                set.add(triangle);
             }
         }
     }
@@ -129,11 +106,18 @@ public class TriangleMesh extends Node {
         }
     }
 
+    /**
+     * Übergibt dem Renderer Vertices und Triangles zum Zeichnen
+     */
     @Override
     protected void addDataToRenderer(){
         renderer.addData(getVertices(), getTriangles());
     }
 
+    /**
+     * Prüft, ob der Renderer Puffer ausgefüllt hat und startet Rendering
+     * @param gl GL2 Objekt
+     */
     @Override
     protected void render(GL2 gl){
         if(renderer != null && renderer.isSetup()) {

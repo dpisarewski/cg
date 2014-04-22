@@ -2,7 +2,7 @@
  * Praktikum Computergrafik, SS2014
  * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
- * Aufgabenblatt 1, Aufgabe a.
+ * Aufgabenblatt 3
  */
 package computergrafik.aufgabe3;
 
@@ -128,12 +128,19 @@ public class Node {
         }
     }
 
+    /**
+     * Zeichnet alle Kindknoten
+     * @param gl Objekt GL
+     */
     protected void render(GL2 gl){
         for(Node child : children){
             child.draw(gl);
         }
     }
 
+    /**
+     * Übergibt die Daten dem Renderer
+     */
     public void setupRendering(){
         addDataToRenderer();
 
@@ -142,9 +149,15 @@ public class Node {
         }
     }
 
+    /**
+     * Hook Methode
+     */
     protected void addDataToRenderer(){
     }
 
+    /**
+     * Rechnet die Normalen
+     */
     public void calculateNormals(){
         for(Node child : children){
             child.calculateNormals();

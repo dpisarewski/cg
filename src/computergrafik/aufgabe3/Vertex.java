@@ -4,7 +4,7 @@ package computergrafik.aufgabe3;
  * Praktikum Computergrafik, SS2014
  * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
- * Aufgabenblatt 2, Aufgabe a.
+ * Aufgabenblatt 3
  */
 
 import computergrafik.framework.Vector3;
@@ -71,7 +71,7 @@ public class Vertex {
     }
 
     /**
-     * Die Methode sucht aus allen Dreiecken nur die Dreiecke, die gemeinsame Punkte haben.
+     * Findet alle Triangles, die den Vertex enthalten
      * @return: Ein Liste mit Ausgewaehlten Dreiecken
      */
     public List<Triangle> selectTriangles(Map<Vertex, Set<Triangle>> associations){

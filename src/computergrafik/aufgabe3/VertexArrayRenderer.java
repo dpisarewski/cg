@@ -44,6 +44,10 @@ public class VertexArrayRenderer {
         setColors(vertices);
     }
 
+    /**
+     * Konvertiert eine Liste mit Vertices nach Array mit Koordinaten
+     * @param vertices Vertices
+     */
     private void addVertices(List<Vertex> vertices){
         float[] newVertexArray  = new float[vertexArray.length + vertices.size() * 3];
         for(int i = 0; i < vertexArray.length; i++){
@@ -60,6 +64,11 @@ public class VertexArrayRenderer {
         vertexArray = newVertexArray;
     }
 
+    /**
+     * Fügt die Normalen entsprechend dem Shading Type
+     * @param triangles Dreiecke
+     * @param vertices Vertices
+     */
     private void addNormals(List<Triangle> triangles, List<Vertex> vertices){
         float[] newNormalsArray = extendArray(normalsArray, triangles.size() * 9);
         switch(shadingType){
@@ -69,6 +78,12 @@ public class VertexArrayRenderer {
         normalsArray = newNormalsArray;
     }
 
+    /**
+     * Fügt die Normalen, wenn Flat Shading benutzt wird
+     * @param array Array mit Normalen
+     * @param from Index
+     * @param triangles Dreiecke
+     */
     private void addFlatNormals(float[] array, int from, List<Triangle> triangles){
         for(int i = 0; i < triangles.size(); i++){
             int offset = from + i * 9;
@@ -80,6 +95,12 @@ public class VertexArrayRenderer {
         }
     }
 
+    /**
+     * Fügt die Normalen, wenn Gouraud Shading benutzt wird
+     * @param array Array mit Normalen
+     * @param from Index
+     * @param vertices Vertices
+     */
     private void addGouraudNormals(float[] array, int from, List<Vertex> vertices){
         for(int i = 0; i < vertices.size(); i++){
             int offset = from + i * 3;
@@ -87,12 +108,22 @@ public class VertexArrayRenderer {
         }
     }
 
+    /**
+     * Fügt eine Normale
+     * @param array Array mit Normalen
+     * @param offset Index
+     * @param values Werte
+     */
     private void pushNormalValues(float[] array, int offset, float[] values){
         for(int i = 0; i < values.length; i++){
             array[offset + i] = values[i];
         }
     }
 
+    /**
+     * Füllt den Array mit Farben
+     * @param vertices
+     */
     private void setColors(List<Vertex> vertices){
         colorsArray = new float[colorsArray.length + vertices.size() * 3];
         Arrays.fill(colorsArray, 0f);
@@ -156,6 +187,12 @@ public class VertexArrayRenderer {
         return buffer;
     }
 
+    /**
+     * Erweitert ein Array
+     * @param array Array
+     * @param size Größe der Erweiterung
+     * @return neues Array
+     */
     private float[] extendArray(float[] array, int size){
         return Arrays.copyOf(array, array.length + size);
     }

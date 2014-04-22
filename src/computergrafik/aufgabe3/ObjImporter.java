@@ -9,13 +9,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pisare_d on 16.04.2014.
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 3
+ */
+
+/**
+ * Importer für OBJ-Format
  */
 public class ObjImporter{
+    /**
+     * Name des Dateis
+     */
     private String filename;
+
+    /**
+     * List mit Vertices
+     */
     private List<Vertex> vertices       = new ArrayList<Vertex>();
+
+    /**
+     * List mit Dreiecken
+     */
     private List<Triangle> triangles    = new ArrayList<Triangle>();
 
+    /**
+     * Konstruktor
+     * @param filename Pfad und Name der Datei
+     */
     public ObjImporter(String filename){
         this.filename = filename;
     }
@@ -28,6 +50,9 @@ public class ObjImporter{
         return triangles;
     }
 
+    /**
+     * Liest aus OBJ-Datei die Vertices und Dreiecke.
+     */
     public void load(){
         try{
             File source = new File(filename);
@@ -45,6 +70,10 @@ public class ObjImporter{
         }
     }
 
+    /**
+     * Erstellt aus geladenen Vertices und Dreiecks einen Mesh
+     * @return mesh
+     */
     public TriangleMesh generateMesh(){
         TriangleMesh mesh = new TriangleMesh();
         mesh.setVertices(getVertices());
@@ -53,12 +82,20 @@ public class ObjImporter{
         return mesh;
     }
 
+    /**
+     * Lädt ein OBJ-Datei und erstellt ein Mesh daraus
+     * @param filename Pfad und Name der Datei
+     * @return
+     */
     public static TriangleMesh loadMesh(String filename){
         ObjImporter importer = new ObjImporter(filename);
         importer.load();
         return importer.generateMesh();
     }
 
+    /**
+     * Konvertiert aus den geladenen Daten in innere repräsentation von Mesh
+     */
     private void convert() {
         List<Vertex> newVertices = new ArrayList<Vertex>();
         for(int i = 0; i < triangles.size(); i++){
@@ -68,10 +105,19 @@ public class ObjImporter{
         vertices = newVertices;
     }
 
+    /**
+     * Parst eine Zeile.
+     * @param line Zeile
+     * @return Array von Tokens
+     */
     private String[] parseLine(String line){
         return line.trim().split("\\s+");
     }
 
+    /**
+     * Prüft den Typ der Zeile und ruft entsprechende Methode auf, die die Textdaten deserialisiert
+     * @param tokens Array mit Tokens
+     */
     private void processLine(String[] tokens){
         switch(tokens[0]){
             case "v" : addVertex(tokens[1], tokens[2], tokens[3]); break;
@@ -79,10 +125,22 @@ public class ObjImporter{
         }
     }
 
+    /**
+     * Fügt die Vertices in die Liste
+     * @param x Koordinate
+     * @param y Koordinate
+     * @param z Koordinate
+     */
     private void addVertex(String x, String y, String z){
         vertices.add(new Vertex(Float.parseFloat(x), Float.parseFloat(y), Float.parseFloat(z)));
     }
 
+    /**
+     * Fügt die Dreiecke in die Liste
+     * @param index1 für Vertex der Ecke 1
+     * @param index2 für Vertex der Ecke 2
+     * @param index3 für Vertex der Ecke 3
+     */
     private void addTriangle(String index1, String index2, String index3){
         int i1 = Integer.parseInt(index1.split("/")[0]);
         int i2 = Integer.parseInt(index2.split("/")[0]);
