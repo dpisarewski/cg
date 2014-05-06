@@ -5,6 +5,7 @@
  */
 package computergrafik.aufgabe4;
 
+import computergrafik.aufgabe3.ObjImporter;
 import computergrafik.framework.ComputergrafikFrame;
 
 import javax.media.opengl.GL2;
@@ -42,26 +43,8 @@ public class Aufgabe4Frame extends ComputergrafikFrame {
      */
     private void construct(){
         TriangleMesh mesh;
-
-        mesh = ObjImporter.loadMesh("data/aufgabe3/bunny.obj");
-        mesh.setMaterial(new MaterialNode(0.1f, 0.1f, .5f, 1));
-        mesh.getRenderer().setShadingType(ShadingType.GOURAUD);
-        scene.addNode(mesh);
-
-        mesh = ObjImporter.loadMesh("data/aufgabe3/cube.obj");
-        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 1, 0, 0));
-        scene.addNode(mesh);
-
-        mesh = ObjImporter.loadMesh("data/aufgabe3/teddy.obj");
-        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 0, 1, 0));
-        mesh.setMaterial(new MaterialNode(0.1f, .5f, 0.1f, 1));
-        mesh.getRenderer().setShadingType(ShadingType.GOURAUD);
-        scene.addNode(mesh);
-
-        mesh = ObjImporter.loadMesh("data/aufgabe3/sphere.obj");
-        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 1, 1, 0));
-        mesh.setMaterial(new MaterialNode(1, 0, 0, 1));
-        mesh.getRenderer().setShadingType(ShadingType.GOURAUD);
+        MarchingCubes alg = new MarchingCubes();
+        mesh = alg.createMesh(2, 2, 2, 50, 50, 50, new Orb(1));
         scene.addNode(mesh);
 
         scene.calculateNormals();

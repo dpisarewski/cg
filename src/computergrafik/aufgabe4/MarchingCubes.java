@@ -1,11 +1,9 @@
 package computergrafik.aufgabe4;
 
+import computergrafik.aufgabe2.*;
 import computergrafik.framework.Vector3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pisare_d on 29.04.2014.
@@ -228,6 +226,16 @@ public class MarchingCubes {
             2 ,6,
     };
 
+    private List<Vertex> vertices    = new ArrayList<>();
+    private List<Triangle> triangles = new ArrayList<>();
+
+    public List<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public List<Triangle> getTriangles() {
+        return triangles;
+    }
 
     private void createTriangles(List<Vector3> vectors, List<Double> values) {
         float t = 0.5f;
@@ -235,15 +243,68 @@ public class MarchingCubes {
         int from, to;
 
         for (int i = 0; i < values.size(); i++) {
-            caseIndex += (values.get(i) > 0 ? 1 : 0) * Math.pow(2, i + 1);
+            caseIndex += (values.get(i) > 0 ? 1 : 0) * Math.pow(2, i);
         }
 
         from = caseIndex * 15;
         to =   (caseIndex + 1) * 15 - 1;
 
-        int[] indices = Arrays.copyOfRange(faces, from, to);
-        List<Vertex> vertices = new ArrayList<>();
+        int[] indices = Arrays.copyOfRange(faces, from, to + 1);
+        makeVertices(vectors, t, indices);
+    }
 
+    public TriangleMesh createMesh(float width, float height, float length, float resolutionX, float resolutionY, float resolutionZ, ImplicitFunction function){
+        float startX    = -width/2;
+        float startY    = -height/2;
+        float startZ    = -length/2;
+        float endX      = width/2;
+        float endY      = height/2;
+        float endZ      = length/2;
+
+        for(float i = startX; i < endX; i += width / resolutionX){
+            for(float j = startY; j < endY; j += height / resolutionY){
+                for(float k = startZ; k < endZ; k += length / resolutionZ){
+                    createTriangles(calculateVectors(i, j, k), calculateValues(function, i, j, k));
+                }
+            }
+        }
+        makeTriangles();
+
+        TriangleMesh mesh = new TriangleMesh();
+        mesh.setVertices(getVertices());
+        mesh.setTriangles(getTriangles());
+        mesh.generateStructure();
+
+        return mesh;
+    }
+
+    private List<Double> calculateValues(ImplicitFunction function, float i, float j, float k) {
+        List<Double> values = new ArrayList<>();
+        values.add(function.calculate(i, j, k));
+        values.add(function.calculate(i + 1, j, k));
+        values.add(function.calculate(i + 1, j + 1, k));
+        values.add(function.calculate(i, j + 1, k));
+        values.add(function.calculate(i, j, k + 1));
+        values.add(function.calculate(i + 1, j, k + 1));
+        values.add(function.calculate(i + 1, j + 1, k + 1));
+        values.add(function.calculate(i, j + 1, k + 1));
+        return values;
+    }
+
+    private List<Vector3> calculateVectors(float i, float j, float k){
+        List<Vector3> vectors = new ArrayList<>();
+        vectors.add(new Vector3(i, j, k));
+        vectors.add(new Vector3(i+1, j, k));
+        vectors.add(new Vector3(i+1, j+1, k));
+        vectors.add(new Vector3(i, j+1, k));
+        vectors.add(new Vector3(i, j, k+1));
+        vectors.add(new Vector3(i+1, j, k+1));
+        vectors.add(new Vector3(i+1, j+1, k+1));
+        vectors.add(new Vector3(i, j+1, k+1));
+        return vectors;
+    }
+
+    private void makeVertices(List<Vector3> vectors, float t, int[] indices) {
         for(int i = 0; i < indices.length; i++){
             int index = indices[i];
             if(index != -1){
@@ -254,6 +315,15 @@ public class MarchingCubes {
                 Vector3 p = p1.multiply(1 - t).add(p2.multiply(t));
                 vertices.add(new Vertex(p));
             }
+        }
+    }
+
+    /**
+     * Die Methode bildet aus Vectices (Punkten) Dreiecke.
+     */
+    private void makeTriangles(){
+        for(int i = 0; i < vertices.size(); i += 3){
+            triangles.add(new Triangle(new int[]{i, i + 1, i + 2}));
         }
     }
 }
