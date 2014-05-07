@@ -71,10 +71,10 @@ public abstract class ComputergrafikFrame extends TimerTask {
     protected void setGlMaterial(GL2 gl, float r, float g, float b) {
         // Use color material
         float diffuseColor[] = new float[] { r, g, b, 1.0f };
-        float specularColor[] = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
+        float specularColor[] = new float[] { 0.3f, 0.3f, 0.3f, 1.0f };
         // Use smaller values when using multiple light sources!
         float ambientColor[] = new float[] { 0.3f * r, 0.3f * g, 0.3f * b, 1.0f };
-        float shininess[] = { 20.0f };
+        float shininess[] = { 100.0f };
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE,
                 diffuseColor, 0);
         gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_AMBIENT,

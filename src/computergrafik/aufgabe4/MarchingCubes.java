@@ -212,22 +212,29 @@ public class MarchingCubes {
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
     private int[] edges = {
-            0, 1,
-            1, 2,
-            2, 3,
-            3, 0,
-            4, 5,
-            5, 6,
-            6, 7,
-            7, 4,
-            0, 4,
-            1, 5,
-            3, 7,
-            2 ,6,
+            0, 1,   //e0
+            1, 2,   //e1
+            2, 3,   //e2
+            3, 0,   //e3
+            4, 5,   //e4
+            5, 6,   //e5
+            6, 7,   //e6
+            7, 4,   //e7
+            0, 4,   //e8
+            1, 5,   //e9
+            3, 7,   //e10
+            2 ,6,   //e11
     };
 
     private List<Vertex> vertices    = new ArrayList<>();
     private List<Triangle> triangles = new ArrayList<>();
+    private ImplicitFunction function;
+    private double iso;
+
+    public MarchingCubes(ImplicitFunction function, double iso){
+        this.function = function;
+        this.iso = iso;
+    }
 
     public List<Vertex> getVertices() {
         return vertices;
@@ -237,34 +244,35 @@ public class MarchingCubes {
         return triangles;
     }
 
-    private void createTriangles(List<Vector3> vectors, List<Double> values) {
-        float t = 0.5f;
+    public void createTriangles(List<Vector3> vectors, List<Double> values) {
         int caseIndex = 0;
-        int from, to;
 
         for (int i = 0; i < values.size(); i++) {
-            caseIndex += (values.get(i) > 0 ? 1 : 0) * Math.pow(2, i);
+            caseIndex += (values.get(i) > iso ? 1 : 0) * Math.pow(2, i);
         }
 
-        from = caseIndex * 15;
-        to =   (caseIndex + 1) * 15 - 1;
+        int from = caseIndex * 15;
+        int to =   (caseIndex + 1) * 15 - 1;
 
         int[] indices = Arrays.copyOfRange(faces, from, to + 1);
-        makeVertices(vectors, t, indices);
+        makeVertices(vectors, values, indices);
     }
 
-    public TriangleMesh createMesh(float width, float height, float length, float resolutionX, float resolutionY, float resolutionZ, ImplicitFunction function){
+    public TriangleMesh createMesh(float width, float height, float length, float resolutionX, float resolutionY, float resolutionZ){
         float startX    = -width/2;
         float startY    = -height/2;
         float startZ    = -length/2;
         float endX      = width/2;
         float endY      = height/2;
         float endZ      = length/2;
+        float stepX     = width / resolutionX;
+        float stepY     = height / resolutionY;
+        float stepZ     = length / resolutionZ;
 
         for(float i = startX; i < endX; i += width / resolutionX){
             for(float j = startY; j < endY; j += height / resolutionY){
                 for(float k = startZ; k < endZ; k += length / resolutionZ){
-                    createTriangles(calculateVectors(i, j, k), calculateValues(function, i, j, k));
+                    createTriangles(calculateVectors(i, j, k, stepX, stepY, stepZ), calculateValues(i, j, k, stepX, stepY, stepZ));
                 }
             }
         }
@@ -278,33 +286,33 @@ public class MarchingCubes {
         return mesh;
     }
 
-    private List<Double> calculateValues(ImplicitFunction function, float i, float j, float k) {
+    private List<Double> calculateValues(float i, float j, float k, float stepX, float stepY, float stepZ) {
         List<Double> values = new ArrayList<>();
         values.add(function.calculate(i, j, k));
-        values.add(function.calculate(i + 1, j, k));
-        values.add(function.calculate(i + 1, j + 1, k));
-        values.add(function.calculate(i, j + 1, k));
-        values.add(function.calculate(i, j, k + 1));
-        values.add(function.calculate(i + 1, j, k + 1));
-        values.add(function.calculate(i + 1, j + 1, k + 1));
-        values.add(function.calculate(i, j + 1, k + 1));
+        values.add(function.calculate(i + stepX, j, k));
+        values.add(function.calculate(i + stepX, j + stepY, k));
+        values.add(function.calculate(i, j + stepY, k));
+        values.add(function.calculate(i, j, k + stepZ));
+        values.add(function.calculate(i + stepX, j, k + stepZ));
+        values.add(function.calculate(i + stepX, j + stepY, k + stepZ));
+        values.add(function.calculate(i, j + stepY, k + stepZ));
         return values;
     }
 
-    private List<Vector3> calculateVectors(float i, float j, float k){
+    private List<Vector3> calculateVectors(float i, float j, float k, float stepX, float stepY, float stepZ){
         List<Vector3> vectors = new ArrayList<>();
         vectors.add(new Vector3(i, j, k));
-        vectors.add(new Vector3(i+1, j, k));
-        vectors.add(new Vector3(i+1, j+1, k));
-        vectors.add(new Vector3(i, j+1, k));
-        vectors.add(new Vector3(i, j, k+1));
-        vectors.add(new Vector3(i+1, j, k+1));
-        vectors.add(new Vector3(i+1, j+1, k+1));
-        vectors.add(new Vector3(i, j+1, k+1));
+        vectors.add(new Vector3(i + stepX, j, k));
+        vectors.add(new Vector3(i + stepX, j + stepY, k));
+        vectors.add(new Vector3(i, j + stepY, k));
+        vectors.add(new Vector3(i, j, k + stepZ));
+        vectors.add(new Vector3(i + stepX, j, k + stepZ));
+        vectors.add(new Vector3(i + stepX, j + stepY, k + stepZ));
+        vectors.add(new Vector3(i, j + stepY, k + stepZ));
         return vectors;
     }
 
-    private void makeVertices(List<Vector3> vectors, float t, int[] indices) {
+    private void makeVertices(List<Vector3> vectors, List<Double> values, int[] indices) {
         for(int i = 0; i < indices.length; i++){
             int index = indices[i];
             if(index != -1){
@@ -312,6 +320,7 @@ public class MarchingCubes {
                 int i2 = edges[index * 2 + 1];
                 Vector3 p1 = vectors.get(i1);
                 Vector3 p2 = vectors.get(i2);
+                double t = (iso - values.get(i1)) / (values.get(i2) - values.get(i1));
                 Vector3 p = p1.multiply(1 - t).add(p2.multiply(t));
                 vertices.add(new Vertex(p));
             }
@@ -321,7 +330,7 @@ public class MarchingCubes {
     /**
      * Die Methode bildet aus Vectices (Punkten) Dreiecke.
      */
-    private void makeTriangles(){
+    public void makeTriangles(){
         for(int i = 0; i < vertices.size(); i += 3){
             triangles.add(new Triangle(new int[]{i, i + 1, i + 2}));
         }

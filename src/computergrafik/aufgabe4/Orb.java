@@ -14,6 +14,6 @@ public class Orb implements ImplicitFunction{
     }
 
     public double calculate(double x, double y, double z){
-        return x * x + y * y + z * z - radius * radius;
+        return (x * x) + (y * y) + (z * z) - (radius * radius);
     }
 }

@@ -7,8 +7,11 @@ package computergrafik.aufgabe4;
 
 import computergrafik.aufgabe3.ObjImporter;
 import computergrafik.framework.ComputergrafikFrame;
+import computergrafik.framework.Vector3;
 
 import javax.media.opengl.GL2;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Application for the first exercise.
@@ -43,8 +46,20 @@ public class Aufgabe4Frame extends ComputergrafikFrame {
      */
     private void construct(){
         TriangleMesh mesh;
-        MarchingCubes alg = new MarchingCubes();
-        mesh = alg.createMesh(2, 2, 2, 50, 50, 50, new Orb(1));
+        MarchingCubes alg;
+        alg = new MarchingCubes(new Torus(0.5, 0.3), 0);
+        mesh = alg.createMesh(2, 2, 2, 25, 25, 25);
+        scene.addNode(mesh);
+
+        alg = new MarchingCubes(new Orb(0.8), 0);
+        mesh = alg.createMesh(2, 2, 2, 25, 25, 25);
+        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, -2, 0, 0));
+        scene.addNode(mesh);
+
+        alg = new MarchingCubes(new BoysSurface(), 0);
+        mesh = alg.createMesh(5, 5, 5, 100, 100, 100);
+        mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 2, 0, 0));
+        mesh.addTransformation(new TransformationNode(TransformationType.SCALE, 0.5f, 0.5f, 0.5f));
         scene.addNode(mesh);
 
         scene.calculateNormals();
