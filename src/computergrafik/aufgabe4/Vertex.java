@@ -56,7 +56,7 @@ public class Vertex {
      * Berechnet eine Normale für den Eckpunkt
      * @param triangles
      */
-    public void calculateNormal(List<Triangle> triangles){
+    public void calculateNormal(List<Triangle> triangles, List<Vertex> vertices){
         Vector3 vec = new Vector3();
 
         for(Triangle triangle: triangles){

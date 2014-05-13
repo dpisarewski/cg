@@ -102,7 +102,7 @@ public class TriangleMesh extends Node {
         }
 
         for(Vertex vertex : vertices){
-            vertex.calculateNormal(vertex.selectTriangles(assotiations));
+            vertex.calculateNormal(vertex.selectTriangles(assotiations), vertices);
         }
     }
 

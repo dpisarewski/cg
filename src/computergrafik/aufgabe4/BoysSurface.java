@@ -8,13 +8,9 @@
 package computergrafik.aufgabe4;
 
 /**
- * Class fuer Boysches Flache.
+ * Class fuer Boysche Fläche.
  */
 public class BoysSurface implements ImplicitFunction{
-
-    public BoysSurface(){
-
-    }
 
     public double calculate(double x, double y, double z) {
         return  64 * Math.pow(1 - z, 3) * Math.pow(z, 3) - 48 * Math.pow(1 - z, 2) * Math.pow(z, 2) *

@@ -57,7 +57,7 @@ public class Aufgabe4Frame extends ComputergrafikFrame {
         scene.addNode(mesh);
 
         alg = new MarchingCubes(new BoysSurface(), 0);
-        mesh = alg.createMesh(5, 5, 5, 100, 100, 100);
+        mesh = alg.createMesh(4, 4, 4, 100, 100, 100);
         mesh.addTransformation(new TransformationNode(TransformationType.TRANSLATE, 2, 0, 0));
         mesh.addTransformation(new TransformationNode(TransformationType.SCALE, 0.5f, 0.5f, 0.5f));
         scene.addNode(mesh);

@@ -8,7 +8,7 @@
 package computergrafik.aufgabe4;
 
 /**
- * Class implementiert ein Interface fuer verschiedene 3D Objekten
+ * Class implementiert ein Interface fuer verschiedene 3D Objekte
  */
 public interface ImplicitFunction {
 
