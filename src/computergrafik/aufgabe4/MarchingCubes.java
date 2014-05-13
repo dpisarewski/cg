@@ -1,3 +1,10 @@
+/**
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 4
+ */
+
 package computergrafik.aufgabe4;
 
 import computergrafik.aufgabe2.*;
@@ -6,10 +13,14 @@ import computergrafik.framework.Vector3;
 import java.util.*;
 
 /**
- * Created by pisare_d on 29.04.2014.
+ * Class implementiert Iterierung auf alle Voxelzellen. Volume und die Aufloesung kann man
+ * aendern.
  */
 public class MarchingCubes {
 
+    /**
+     * casesLookupTable
+     */
     private static int faces[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, 0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, 0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1,
@@ -211,6 +222,9 @@ public class MarchingCubes {
             8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
+    /**
+     * Kanten zwichen den Eckpunkten
+     */
     private int[] edges = {
             0, 1,   //e0
             1, 2,   //e1
@@ -226,11 +240,31 @@ public class MarchingCubes {
             2 ,6,   //e11
     };
 
+    /**
+     * List mit vertices
+     */
     private List<Vertex> vertices    = new ArrayList<>();
+
+    /**
+     * List mit Dreiecken
+     */
     private List<Triangle> triangles = new ArrayList<>();
+
+    /**
+     * Implizite Funktion
+     */
     private ImplicitFunction function;
+
+    /**
+     * Isowert
+     */
     private double iso;
 
+    /**
+     * Konstruktor
+     * @param function Implizite Funktion
+     * @param iso Isowert
+     */
     public MarchingCubes(ImplicitFunction function, double iso){
         this.function = function;
         this.iso = iso;
@@ -244,6 +278,13 @@ public class MarchingCubes {
         return triangles;
     }
 
+    /**
+     * Hier werden die Dreiecke gebaut. Zuerst wird caseIndex gerechnet, danach
+     * Anfangs- und Endindex in casesLookupTable. Die zugehoerige werte werden
+     * in indices[] kopiert.
+     * @param vectors List mit Vektoren
+     * @param values List mit Daten
+     */
     public void createTriangles(List<Vector3> vectors, List<Double> values) {
         int caseIndex = 0;
 
@@ -258,6 +299,16 @@ public class MarchingCubes {
         makeVertices(vectors, values, indices);
     }
 
+    /**
+     * Hier wird TriangleMesh fuer jede einzelne Voxelzelle generiert.
+     * @param width Breite
+     * @param height Hoehe
+     * @param length Laenge
+     * @param resolutionX Aufloesung fuer X Achse
+     * @param resolutionY Aufloesung fuer Y Achse
+     * @param resolutionZ Aufloesung fuer Z Achse
+     * @return TriangleMesh
+     */
     public TriangleMesh createMesh(float width, float height, float length, float resolutionX, float resolutionY, float resolutionZ){
         float startX    = -width/2;
         float startY    = -height/2;
@@ -286,6 +337,16 @@ public class MarchingCubes {
         return mesh;
     }
 
+    /**
+     * Berechnung von Daten fuer eine Voxelzelle.
+     * @param i Anfangskoordinate X
+     * @param j Anfangskoordinate Y
+     * @param k Anfangskoordinate Z
+     * @param stepX Die Groesse des Voxelzelles auf X Achse
+     * @param stepY Die Groesse des Voxelzelles auf Y Achse
+     * @param stepZ Die Groesse des Voxelzelles auf Z Achse
+     * @return Daten
+     */
     private List<Double> calculateValues(float i, float j, float k, float stepX, float stepY, float stepZ) {
         List<Double> values = new ArrayList<>();
         values.add(function.calculate(i, j, k));
@@ -299,6 +360,16 @@ public class MarchingCubes {
         return values;
     }
 
+    /**
+     * Berechnung von Vektoren fuer eine Voxelzelle.
+     * @param i Anfangskoordinate X
+     * @param j Anfangskoordinate Y
+     * @param k Anfangskoordinate Z
+     * @param stepX Die Groesse des Voxelzelles auf X Achse
+     * @param stepY Die Groesse des Voxelzelles auf Y Achse
+     * @param stepZ Die Groesse des Voxelzelles auf Z Achse
+     * @return Vektoren
+     */
     private List<Vector3> calculateVectors(float i, float j, float k, float stepX, float stepY, float stepZ){
         List<Vector3> vectors = new ArrayList<>();
         vectors.add(new Vector3(i, j, k));
@@ -312,6 +383,13 @@ public class MarchingCubes {
         return vectors;
     }
 
+    /**
+     * Berechnung des Positions eines Dreieck-Eckpunktes auf einer Kante.
+     * (Formel aus den Vorlesungsfolien)
+     * @param vectors List mit Vektoren
+     * @param values List mit Daten
+     * @param indices Indexen
+     */
     private void makeVertices(List<Vector3> vectors, List<Double> values, int[] indices) {
         for(int i = 0; i < indices.length; i++){
             int index = indices[i];

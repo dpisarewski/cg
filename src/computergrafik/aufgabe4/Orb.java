@@ -1,9 +1,15 @@
+/**
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 4
+ */
 package computergrafik.aufgabe4;
 
 import java.util.Map;
 
 /**
- * Created by pisare_d on 06.05.2014.
+ * Class fuer Kugel
  */
 public class Orb implements ImplicitFunction{
 

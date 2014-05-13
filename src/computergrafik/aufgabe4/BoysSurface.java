@@ -1,7 +1,14 @@
+/**
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 4
+ */
+
 package computergrafik.aufgabe4;
 
 /**
- * Created by pisare_d on 07.05.2014.
+ * Class fuer Boysches Flache.
  */
 public class BoysSurface implements ImplicitFunction{
 
