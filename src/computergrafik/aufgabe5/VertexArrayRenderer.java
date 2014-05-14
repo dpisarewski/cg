@@ -1,8 +1,12 @@
 package computergrafik.aufgabe5;
 
 import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
 
 import javax.media.opengl.GL2;
+import java.io.File;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.List;
@@ -15,10 +19,13 @@ import java.util.List;
  */
 
 public class VertexArrayRenderer {
-    private float[] vertexArray = new float[0];
-    private float[] colorsArray = new float[0];
-    private float[] normalsArray = new float[0];
+    private float[] vertexArray     = new float[0];
+    private float[] colorsArray     = new float[0];
+    private float[] normalsArray    = new float[0];
+    private float[] textureArray    = new float[0];
     private ShadingType shadingType = ShadingType.FLAT;
+    private String textureFilename;
+    private Texture texture;
 
     public VertexArrayRenderer(){}
 
@@ -37,8 +44,11 @@ public class VertexArrayRenderer {
      * wird 3x3 so lang, wie Anzahl der Dreiecken.
      * @param vertices
      * @param triangles
+     * @param textureCoordinates
      */
-    public void addData(List<Vertex> vertices, List<Triangle> triangles){
+    public void addData(List<Vertex> vertices, List<Triangle> triangles, List<TextureCoordinate> textureCoordinates, String textureFilename){
+        this.textureFilename = textureFilename;
+        addTextureCoordinates(textureCoordinates);
         addVertices(vertices);
         addNormals(triangles, vertices);
         setColors(vertices);
@@ -77,6 +87,17 @@ public class VertexArrayRenderer {
         }
         normalsArray = newNormalsArray;
     }
+
+
+    private void addTextureCoordinates(List<TextureCoordinate> textureCoordinates){
+        float[] newTextureArray = extendArray(normalsArray, textureCoordinates.size() * 2);
+        for(int i = 0; i < textureCoordinates.size(); i++){
+            newTextureArray[i * 2]      = textureCoordinates.get(i).getU();
+            newTextureArray[i * 2 + 1]  = textureCoordinates.get(i).getV();
+        }
+        textureArray = newTextureArray;
+    }
+
 
     /**
      * Fügt die Normalen, wenn Flat Shading benutzt wird
@@ -152,14 +173,21 @@ public class VertexArrayRenderer {
      * @param gl
      */
     private void start(GL2 gl){
+        loadTexture();
+        gl.glEnable(texture.getTarget());
+        gl.glBindTexture(texture.getTarget(), texture.getTextureObject(gl));
+
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
         gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
+        gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
 
-        FloatBuffer verticesBuf = createBuffer(vertexArray);;
+        FloatBuffer verticesBuf = createBuffer(vertexArray);
         FloatBuffer colorsBuff  = createBuffer(colorsArray);
         FloatBuffer normalsBuff = createBuffer(normalsArray);
+        FloatBuffer textureBuff = createBuffer(textureArray);
 
+        gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, textureBuff);
         gl.glVertexPointer(3, GL2.GL_FLOAT, 0, verticesBuf);
         gl.glNormalPointer(GL2.GL_FLOAT, 0, normalsBuff);
         gl.glColorPointer(3, GL2.GL_FLOAT, 0, colorsBuff);
@@ -173,6 +201,7 @@ public class VertexArrayRenderer {
         gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
         gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
+        gl.glDisableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
     }
 
     /**
@@ -195,5 +224,13 @@ public class VertexArrayRenderer {
      */
     private float[] extendArray(float[] array, int size){
         return Arrays.copyOf(array, array.length + size);
+    }
+
+    private void loadTexture(){
+        if(texture == null) try {
+            texture = TextureIO.newTexture(new File(textureFilename), false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

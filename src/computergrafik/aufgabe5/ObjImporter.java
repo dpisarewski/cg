@@ -1,5 +1,11 @@
 package computergrafik.aufgabe5;
 
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
+
+import javax.imageio.ImageIO;
+import javax.media.opengl.GL;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +22,6 @@ import java.util.List;
  */
 public class ObjImporter {
     /**
-     * Name des Dateis
-     */
-    private String filename;
-
-    /**
      * Liste mit Vertices
      */
     private List<Vertex> vertices       = new ArrayList<>();
@@ -35,12 +36,10 @@ public class ObjImporter {
      */
     private List<TextureCoordinate> textureCoordinates = new ArrayList<>();
 
-    /**
-     * Konstruktor
-     * @param filename Pfad und Name der Datei
-     */
-    public ObjImporter(String filename){
-        this.filename = filename;
+    private String textureFilename;
+
+    public String getTextureFilename() {
+        return textureFilename;
     }
 
     public List<Vertex> getVertices() {
@@ -58,7 +57,7 @@ public class ObjImporter {
     /**
      * Liest aus OBJ-Datei die Vertices und Dreiecke.
      */
-    public void load(){
+    public void load(String filename){
         try{
             File source = new File(filename);
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
@@ -94,9 +93,11 @@ public class ObjImporter {
      * @return
      */
     public static TriangleMesh loadMesh(String filename){
-        ObjImporter importer = new ObjImporter(filename);
-        importer.load();
-        return importer.generateMesh();
+        ObjImporter importer = new ObjImporter();
+        importer.load(filename);
+        TriangleMesh mesh = importer.generateMesh();
+        mesh.setTextureFilename(importer.getTextureFilename());
+        return mesh;
     }
 
     /**
@@ -129,6 +130,8 @@ public class ObjImporter {
             case "v" : addVertex(tokens[1], tokens[2], tokens[3]);      break;
             case "f" : addTriangle(tokens[1], tokens[2], tokens[3]);    break;
             case "vt": addTextureCoordinates(tokens[1], tokens[2]);     break;
+            case "mtllib" : loadMaterial(tokens[1]);                    break;
+            case "map_Kd" : setTextureFilename(tokens[1]);              break;
         }
     }
 
@@ -159,4 +162,11 @@ public class ObjImporter {
         textureCoordinates.add(new TextureCoordinate(Float.parseFloat(u), Float.parseFloat(v)));
     }
 
+    private void loadMaterial(String filename){
+        load("data/aufgabe5/" + filename);
+    }
+
+    private void setTextureFilename(String filename){
+        textureFilename = "data/aufgabe5/" + filename;
+    }
 }

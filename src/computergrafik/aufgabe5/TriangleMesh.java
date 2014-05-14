@@ -7,6 +7,8 @@ package computergrafik.aufgabe5;
  * Aufgabenblatt 3
  */
 
+import com.jogamp.opengl.util.texture.Texture;
+
 import javax.media.opengl.GL2;
 import java.util.*;
 
@@ -38,6 +40,12 @@ public class TriangleMesh extends Node {
      * Renderer, der Daten und Einstellungen für ein Mesh enthält
      */
     private VertexArrayRenderer renderer = new VertexArrayRenderer();
+
+    private String textureFilename;
+
+    public void setTextureFilename(String textureFilename) {
+        this.textureFilename = textureFilename;
+    }
 
     public List<Vertex> getVertices() {
         return vertices;
@@ -122,7 +130,7 @@ public class TriangleMesh extends Node {
      */
     @Override
     protected void addDataToRenderer(){
-        renderer.addData(getVertices(), getTriangles());
+        renderer.addData(getVertices(), getTriangles(), getTextureCoordinates(), textureFilename);
     }
 
     /**

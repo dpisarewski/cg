@@ -33,7 +33,7 @@ public class Aufgabe5Frame extends ComputergrafikFrame {
      */
     @Override
     public void drawGlContent(GL2 gl) {
-        setGlMaterial(gl, 0.25f, 0.25f, 0.25f);
+        //setGlMaterial(gl, 0.25f, 0.25f, 0.25f);
         scene.draw(gl);
     }
 
@@ -44,24 +44,8 @@ public class Aufgabe5Frame extends ComputergrafikFrame {
         TriangleMesh mesh;
         Node transformation, material;
 
-        mesh = ObjImporter.loadMesh("data/aufgabe3/bunny.obj");
-        mesh.getRenderer().setShadingType(ShadingType.GOURAUD);
-        material = new MaterialNode(0.1f, 0.1f, .5f, 1);
-        material.addNode(mesh);
-        scene.addNode(material);
-
-        mesh = ObjImporter.loadMesh("data/aufgabe3/cube.obj");
-        transformation = new TransformationNode(TransformationType.TRANSLATE, 1, 0, 0);
-        transformation.addNode(mesh);
-        scene.addNode(transformation);
-
-        mesh = ObjImporter.loadMesh("data/aufgabe3/teddy.obj");
-        mesh.getRenderer().setShadingType(ShadingType.GOURAUD);
-        transformation = new TransformationNode(TransformationType.TRANSLATE, 0, 1, 0);
-        material = new MaterialNode(0.1f, .5f, 0.1f, 1);
-        material.addNode(mesh);
-        transformation.addNode(material);
-        scene.addNode(transformation);
+        mesh = ObjImporter.loadMesh("data/aufgabe5/cube.obj");
+        scene.addNode(mesh);
 
         scene.calculateNormals();
         scene.setupRendering();
