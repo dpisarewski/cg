@@ -44,8 +44,18 @@ public class Aufgabe5Frame extends ComputergrafikFrame {
         TriangleMesh mesh;
         Node transformation, material;
 
+        mesh = ObjImporter.loadMesh("data/aufgabe5/square.obj");
+        transformation = new TransformationNode(TransformationType.TRANSLATE, -2, 0, 0);
+        transformation.addNode(mesh);
+        scene.addNode(transformation);
+
         mesh = ObjImporter.loadMesh("data/aufgabe5/sphere.obj");
         scene.addNode(mesh);
+
+        mesh = ObjImporter.loadMesh("data/aufgabe5/cube.obj");
+        transformation = new TransformationNode(TransformationType.TRANSLATE, 2, 0, 0);
+        transformation.addNode(mesh);
+        scene.addNode(transformation);
 
         scene.calculateNormals();
         scene.setupRendering();
