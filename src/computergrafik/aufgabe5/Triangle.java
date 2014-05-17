@@ -22,13 +22,15 @@ public class Triangle {
     private int[] indices;
 
     /**
+     * Indizes der Texturcoordinaten
+     */
+    private int[] textureIndices;
+
+    /**
      * Normale des Dreiecks
      */
     private Vector3 normal;
 
-    /**
-     * Konstruktor.
-     */
     public Triangle(){
         this.indices = new int[]{0, 1, 2};
     }
@@ -51,6 +53,14 @@ public class Triangle {
 
     public void setIndices(int[] indices) {
         this.indices = indices;
+    }
+
+    public int[] getTextureIndices() {
+        return textureIndices;
+    }
+
+    public void setTextureIndices(int[] textureIndices) {
+        this.textureIndices = textureIndices;
     }
 
     /**
@@ -78,7 +88,7 @@ public class Triangle {
     /**
      * Berechnet Fläche des Dreiecks
      * @param vertices
-     * @return
+     * @return Fläche
      */
     public double getArea(List<Vertex> vertices){
         return getOrthogonal(vertices).getNorm() / 2;

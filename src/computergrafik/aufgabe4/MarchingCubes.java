@@ -237,7 +237,7 @@ public class MarchingCubes {
             0, 4,   //e8
             1, 5,   //e9
             3, 7,   //e10
-            2 ,6,   //e11
+            2, 6,   //e11
     };
 
     /**

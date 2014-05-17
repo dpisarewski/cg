@@ -104,12 +104,42 @@ public class ObjImporter {
      * Konvertiert aus den geladenen Daten in innere repräsentation von Mesh
      */
     private void convert() {
-        List<Vertex> newVertices = new ArrayList<Vertex>();
-        for(int i = 0; i < triangles.size(); i++){
-            newVertices.addAll(triangles.get(i).getVertices(vertices));
-            triangles.set(i, new Triangle(new int[]{i * 3, i * 3 + 1, i * 3 + 2}));
+        vertices  = convertVertices();
+        if(!vertices.isEmpty()){
+            textureCoordinates = convertTextureCoordinates();
         }
-        vertices = newVertices;
+        triangles = convertTriangles();
+    }
+
+    private List<Vertex> convertVertices(){
+        List<Vertex> newVertices = new ArrayList<>();
+        for(Triangle triangle : triangles){
+            newVertices.addAll(triangle.getVertices(vertices));
+        }
+        return newVertices;
+    }
+
+    private List<Triangle> convertTriangles(){
+        List<Triangle> newTriangles = new ArrayList<>();
+        for(int i = 0; i < triangles.size(); i++){
+            Triangle triangle = new Triangle(new int[]{i * 3, i * 3 + 1, i * 3 + 2});
+            triangle.setTextureIndices(triangles.get(i).getTextureIndices());
+            newTriangles.add(triangle);
+        }
+        return newTriangles;
+    }
+
+    private List<TextureCoordinate> convertTextureCoordinates(){
+        List<TextureCoordinate> newTextureCoordinates = new ArrayList<>();
+        for(Triangle triangle : triangles){
+            int[] indices = triangle.getTextureIndices();
+            List<TextureCoordinate> coordinates = new ArrayList<>();
+            for(int index : indices){
+                coordinates.add(textureCoordinates.get(index));
+            }
+            newTextureCoordinates.addAll(coordinates);
+        }
+        return newTextureCoordinates;
     }
 
     /**
@@ -155,7 +185,13 @@ public class ObjImporter {
         int i1 = Integer.parseInt(index1.split("/")[0]);
         int i2 = Integer.parseInt(index2.split("/")[0]);
         int i3 = Integer.parseInt(index3.split("/")[0]);
-        triangles.add(new Triangle(new int[]{i1 - 1, i2 - 1, i3 - 1}));
+
+        int t1 = Integer.parseInt(index1.split("/")[1]);
+        int t2 = Integer.parseInt(index2.split("/")[1]);
+        int t3 = Integer.parseInt(index3.split("/")[1]);
+        Triangle triangle = new Triangle(new int[]{i1 - 1, i2 - 1, i3 - 1});
+        triangle.setTextureIndices(new int[]{t1 - 1, t2 - 1, t3 - 1});
+        triangles.add(triangle);
     }
 
     private void addTextureCoordinates(String u, String v){

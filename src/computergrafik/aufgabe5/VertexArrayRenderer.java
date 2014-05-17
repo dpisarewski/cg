@@ -173,14 +173,15 @@ public class VertexArrayRenderer {
      * @param gl
      */
     private void start(GL2 gl){
-        loadTexture();
-        gl.glEnable(texture.getTarget());
-        gl.glBindTexture(texture.getTarget(), texture.getTextureObject(gl));
-
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
         gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
         gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
+
+        loadTexture();
+        gl.glActiveTexture(GL2.GL_TEXTURE0);
+        texture.bind(gl);
+        texture.enable(gl);
 
         FloatBuffer verticesBuf = createBuffer(vertexArray);
         FloatBuffer colorsBuff  = createBuffer(colorsArray);
@@ -188,9 +189,9 @@ public class VertexArrayRenderer {
         FloatBuffer textureBuff = createBuffer(textureArray);
 
         gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, textureBuff);
-        gl.glVertexPointer(3, GL2.GL_FLOAT, 0, verticesBuf);
+        gl.glVertexPointer(3,   GL2.GL_FLOAT, 0, verticesBuf);
+        gl.glColorPointer(3,    GL2.GL_FLOAT, 0, colorsBuff);
         gl.glNormalPointer(GL2.GL_FLOAT, 0, normalsBuff);
-        gl.glColorPointer(3, GL2.GL_FLOAT, 0, colorsBuff);
     }
 
     /**
