@@ -70,7 +70,7 @@ public class ObjImporter {
     }
 
     /**
-     * Konvertiert aus den geladenen Daten in innere repräsentation von Mesh
+     * Konvertiert geladene Daten in innere repräsentation von Mesh
      */
     private void convert() {
         mesh.setVertices(convertVertices());
@@ -80,6 +80,10 @@ public class ObjImporter {
         mesh.setTriangles(convertTriangles());
     }
 
+    /**
+     * Konvertiert Vertices
+     * @return konvertierte List mit Vertices
+     */
     private List<Vertex> convertVertices(){
         List<Vertex> newVertices = new ArrayList<>();
         for(Triangle triangle : mesh.getTriangles()){
@@ -88,6 +92,10 @@ public class ObjImporter {
         return newVertices;
     }
 
+    /**
+     * Konvertiert Dreiecke
+     * @return konvertierte List mit Dreiecken
+     */
     private List<Triangle> convertTriangles(){
         List<Triangle> newTriangles = new ArrayList<>();
         for(int i = 0; i < mesh.getTriangles().size(); i++){
@@ -98,6 +106,10 @@ public class ObjImporter {
         return newTriangles;
     }
 
+    /**
+     * Konvertiert Texturcoordinaten
+     * @return konvertierte List mit Texturkoordinaten
+     */
     private List<TextureCoordinate> convertTextureCoordinates(){
         List<TextureCoordinate> newTextureCoordinates = new ArrayList<>();
         for(Triangle triangle : mesh.getTriangles()){

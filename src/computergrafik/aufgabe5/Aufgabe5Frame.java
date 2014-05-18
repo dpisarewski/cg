@@ -25,15 +25,8 @@ public class Aufgabe5Frame extends ComputergrafikFrame {
         super(timerInverval);
     }
 
-    /*
-     * (nicht-Javadoc)
-     *
-     * @see
-     * computergrafik.framework.IRenderFrame#drawGlContent(javax.media.opengl.GL)
-     */
     @Override
     public void drawGlContent(GL2 gl) {
-        //setGlMaterial(gl, 0.25f, 0.25f, 0.25f);
         scene.draw(gl);
     }
 
@@ -61,11 +54,6 @@ public class Aufgabe5Frame extends ComputergrafikFrame {
         scene.setupRendering();
     }
 
-    /*
-     * (nicht-Javadoc)
-     * 
-     * @see computergrafik.framework.ComputergrafikFrame#timerTick()
-     */
     @Override
     protected void timerTick() {
         // System.out.println("Tick");
