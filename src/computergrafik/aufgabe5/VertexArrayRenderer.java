@@ -38,24 +38,22 @@ public class VertexArrayRenderer {
     }
 
     /**
-     * Die Methode bildet 3 Arrays: mit Vertices, mit den Normalen und mit Colors.
+     * Die Methode fügt Daten aus einem Mesh in 4 Puffer: Vertices, Normalen, Texturkoordinaten und Farben.
      * Die Vertices haben 3 Punkten. Deswegen vertexArray wird 3 Mal so lang, wie Anzahl der Vertices.
      * Jeder Dreieck besteht aus 3 Vertices. Die Normalen werden fuer jeder berechnet. Also normalsArray
      * wird 3x3 so lang, wie Anzahl der Dreiecken.
-     * @param vertices
-     * @param triangles
-     * @param textureCoordinates
+     * @param mesh
      */
-    public void addData(List<Vertex> vertices, List<Triangle> triangles, List<TextureCoordinate> textureCoordinates, String textureFilename){
-        this.textureFilename = textureFilename;
-        addTextureCoordinates(textureCoordinates);
-        addVertices(vertices);
-        addNormals(triangles, vertices);
-        setColors(vertices);
+    public void addData(TriangleMesh mesh){
+        this.textureFilename = mesh.getTextureFilename();
+        addTextureCoordinates(mesh.getTextureCoordinates());
+        addVertices(mesh.getVertices());
+        addNormals(mesh.getTriangles(), mesh.getVertices());
+        setColors(mesh.getVertices());
     }
 
     /**
-     * Konvertiert eine Liste mit Vertices nach Array mit Koordinaten
+     * Konvertiert eine Liste mit Vertices in Array mit Koordinaten
      * @param vertices Vertices
      */
     private void addVertices(List<Vertex> vertices){
@@ -75,7 +73,7 @@ public class VertexArrayRenderer {
     }
 
     /**
-     * Fügt die Normalen entsprechend dem Shading Type
+     * Fügt Normalen entsprechend dem Shading Type in den Puffer ein
      * @param triangles Dreiecke
      * @param vertices Vertices
      */
@@ -88,7 +86,10 @@ public class VertexArrayRenderer {
         normalsArray = newNormalsArray;
     }
 
-
+    /**
+     * Fügt Texturcoordinaten in den Puffer ein
+     * @param textureCoordinates
+     */
     private void addTextureCoordinates(List<TextureCoordinate> textureCoordinates){
         float[] newTextureArray = extendArray(normalsArray, textureCoordinates.size() * 2);
         for(int i = 0; i < textureCoordinates.size(); i++){
@@ -173,15 +174,14 @@ public class VertexArrayRenderer {
      * @param gl
      */
     private void start(GL2 gl){
+        loadTexture();
+        texture.bind(gl);
+        texture.enable(gl);
+
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
         gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
         gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
-
-        loadTexture();
-        gl.glActiveTexture(GL2.GL_TEXTURE0);
-        texture.bind(gl);
-        texture.enable(gl);
 
         FloatBuffer verticesBuf = createBuffer(vertexArray);
         FloatBuffer colorsBuff  = createBuffer(colorsArray);
@@ -191,7 +191,7 @@ public class VertexArrayRenderer {
         gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, textureBuff);
         gl.glVertexPointer(3,   GL2.GL_FLOAT, 0, verticesBuf);
         gl.glColorPointer(3,    GL2.GL_FLOAT, 0, colorsBuff);
-        gl.glNormalPointer(GL2.GL_FLOAT, 0, normalsBuff);
+        gl.glNormalPointer(     GL2.GL_FLOAT, 0, normalsBuff);
     }
 
     /**
@@ -226,6 +226,10 @@ public class VertexArrayRenderer {
     private float[] extendArray(float[] array, int size){
         return Arrays.copyOf(array, array.length + size);
     }
+
+    /**
+     * Lädt Textur aus der Datei(nur einmal)
+     */
 
     private void loadTexture(){
         if(texture == null) try {

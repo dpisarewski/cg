@@ -7,8 +7,6 @@ package computergrafik.aufgabe5;
  * Aufgabenblatt 3
  */
 
-import com.jogamp.opengl.util.texture.Texture;
-
 import javax.media.opengl.GL2;
 import java.util.*;
 
@@ -42,6 +40,10 @@ public class TriangleMesh extends Node {
     private VertexArrayRenderer renderer = new VertexArrayRenderer();
 
     private String textureFilename;
+
+    public String getTextureFilename() {
+        return textureFilename;
+    }
 
     public void setTextureFilename(String textureFilename) {
         this.textureFilename = textureFilename;
@@ -80,21 +82,6 @@ public class TriangleMesh extends Node {
     }
 
     /**
-     * Fuegt einen Vector fuer Knoten (Figur) hin.
-     */
-    public void addVertex(float x, float y, float z){
-        vertices.add(new Vertex(x, y, z));
-    }
-
-    /**
-     * Ergaenzt den Dreieck in die Liste.
-     * @param triangle
-     */
-    public void addTriangle(Triangle triangle){
-        triangles.add(triangle);
-    }
-
-    /**
      * Speichert zu jedem Vertex Triangles, die ihn enthalten in einem Map
      */
     public void generateStructure(){
@@ -103,7 +90,7 @@ public class TriangleMesh extends Node {
                 Set<Triangle> set = assotiations.get(vertex);
 
                 if(set == null){
-                    set = new HashSet<Triangle>();
+                    set = new HashSet<>();
                     assotiations.put(vertex, set);
                 }
 
@@ -130,7 +117,7 @@ public class TriangleMesh extends Node {
      */
     @Override
     protected void addDataToRenderer(){
-        renderer.addData(getVertices(), getTriangles(), getTextureCoordinates(), textureFilename);
+        renderer.addData(this);
     }
 
     /**

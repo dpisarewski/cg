@@ -22,37 +22,19 @@ import java.util.List;
  */
 public class ObjImporter {
     /**
-     * Liste mit Vertices
+     * TriangleMesh, in den Daten geladen werden
      */
-    private List<Vertex> vertices       = new ArrayList<>();
+    TriangleMesh mesh;
 
-    /**
-     * Liste mit Dreiecken
-     */
-    private List<Triangle> triangles    = new ArrayList<>();
-
-    /**
-     * Liste mit Texturkoordinaten
-     */
-    private List<TextureCoordinate> textureCoordinates = new ArrayList<>();
-
-    private String textureFilename;
-
-    public String getTextureFilename() {
-        return textureFilename;
+    public ObjImporter(TriangleMesh mesh){
+        this.mesh = mesh;
     }
 
-    public List<Vertex> getVertices() {
-        return vertices;
+    public TriangleMesh getMesh() {
+        return mesh;
     }
 
-    public List<Triangle> getTriangles() {
-        return triangles;
-    }
-
-    public List<TextureCoordinate> getTextureCoordinates() {
-        return textureCoordinates;
-    }
+    private String workingDirectory;
 
     /**
      * Liest aus OBJ-Datei die Vertices und Dreiecke.
@@ -60,6 +42,7 @@ public class ObjImporter {
     public void load(String filename){
         try{
             File source = new File(filename);
+            workingDirectory = source.getParent();
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
 
             String line;
@@ -75,55 +58,41 @@ public class ObjImporter {
     }
 
     /**
-     * Erstellt aus geladenen Vertices und Dreiecks einen Mesh
-     * @return mesh
-     */
-    public TriangleMesh generateMesh(){
-        TriangleMesh mesh = new TriangleMesh();
-        mesh.setVertices(getVertices());
-        mesh.setTriangles(getTriangles());
-        mesh.setTextureCoordinates(getTextureCoordinates());
-        mesh.generateStructure();
-        return mesh;
-    }
-
-    /**
      * Lädt ein OBJ-Datei und erstellt ein Mesh daraus
      * @param filename Pfad und Name der Datei
      * @return
      */
     public static TriangleMesh loadMesh(String filename){
-        ObjImporter importer = new ObjImporter();
+        ObjImporter importer = new ObjImporter(new TriangleMesh());
         importer.load(filename);
-        TriangleMesh mesh = importer.generateMesh();
-        mesh.setTextureFilename(importer.getTextureFilename());
-        return mesh;
+        importer.getMesh().generateStructure();
+        return importer.getMesh();
     }
 
     /**
      * Konvertiert aus den geladenen Daten in innere repräsentation von Mesh
      */
     private void convert() {
-        vertices  = convertVertices();
-        if(!vertices.isEmpty()){
-            textureCoordinates = convertTextureCoordinates();
+        mesh.setVertices(convertVertices());
+        if(!mesh.getVertices().isEmpty()){
+            mesh.setTextureCoordinates(convertTextureCoordinates());
         }
-        triangles = convertTriangles();
+        mesh.setTriangles(convertTriangles());
     }
 
     private List<Vertex> convertVertices(){
         List<Vertex> newVertices = new ArrayList<>();
-        for(Triangle triangle : triangles){
-            newVertices.addAll(triangle.getVertices(vertices));
+        for(Triangle triangle : mesh.getTriangles()){
+            newVertices.addAll(triangle.getVertices(mesh.getVertices()));
         }
         return newVertices;
     }
 
     private List<Triangle> convertTriangles(){
         List<Triangle> newTriangles = new ArrayList<>();
-        for(int i = 0; i < triangles.size(); i++){
+        for(int i = 0; i < mesh.getTriangles().size(); i++){
             Triangle triangle = new Triangle(new int[]{i * 3, i * 3 + 1, i * 3 + 2});
-            triangle.setTextureIndices(triangles.get(i).getTextureIndices());
+            triangle.setTextureIndices(mesh.getTriangles().get(i).getTextureIndices());
             newTriangles.add(triangle);
         }
         return newTriangles;
@@ -131,11 +100,11 @@ public class ObjImporter {
 
     private List<TextureCoordinate> convertTextureCoordinates(){
         List<TextureCoordinate> newTextureCoordinates = new ArrayList<>();
-        for(Triangle triangle : triangles){
+        for(Triangle triangle : mesh.getTriangles()){
             int[] indices = triangle.getTextureIndices();
             List<TextureCoordinate> coordinates = new ArrayList<>();
             for(int index : indices){
-                coordinates.add(textureCoordinates.get(index));
+                coordinates.add(mesh.getTextureCoordinates().get(index));
             }
             newTextureCoordinates.addAll(coordinates);
         }
@@ -166,17 +135,17 @@ public class ObjImporter {
     }
 
     /**
-     * Fügt die Vertices in die Liste
+     * Fügt die Vertices in die Liste ein
      * @param x Koordinate
      * @param y Koordinate
      * @param z Koordinate
      */
     private void addVertex(String x, String y, String z){
-        vertices.add(new Vertex(Float.parseFloat(x), Float.parseFloat(y), Float.parseFloat(z)));
+        mesh.getVertices().add(new Vertex(Float.parseFloat(x), Float.parseFloat(y), Float.parseFloat(z)));
     }
 
     /**
-     * Fügt die Dreiecke in die Liste
+     * Fügt die Dreiecke in die Liste ein
      * @param index1 für Vertex der Ecke 1
      * @param index2 für Vertex der Ecke 2
      * @param index3 für Vertex der Ecke 3
@@ -191,18 +160,31 @@ public class ObjImporter {
         int t3 = Integer.parseInt(index3.split("/")[1]);
         Triangle triangle = new Triangle(new int[]{i1 - 1, i2 - 1, i3 - 1});
         triangle.setTextureIndices(new int[]{t1 - 1, t2 - 1, t3 - 1});
-        triangles.add(triangle);
+        mesh.getTriangles().add(triangle);
     }
 
+    /**
+     * Fügt Texturkoordinaten in die Liste ein
+     * @param u U Koordinate
+     * @param v V Koordinate
+     */
     private void addTextureCoordinates(String u, String v){
-        textureCoordinates.add(new TextureCoordinate(Float.parseFloat(u), Float.parseFloat(v)));
+        mesh.getTextureCoordinates().add(new TextureCoordinate(Float.parseFloat(u), Float.parseFloat(v)));
     }
 
+    /**
+     * Lädt eine Materialdatei
+     * @param filename Name der Datei
+     */
     private void loadMaterial(String filename){
-        load("data/aufgabe5/" + filename);
+        load(new File(workingDirectory, filename).toString());
     }
 
+    /**
+     * Speichert den Namen der Texturdatei
+     * @param filename
+     */
     private void setTextureFilename(String filename){
-        textureFilename = "data/aufgabe5/" + filename;
+        mesh.setTextureFilename(new File(workingDirectory, filename).toString());
     }
 }
