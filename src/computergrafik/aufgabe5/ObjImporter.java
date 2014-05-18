@@ -1,11 +1,5 @@
 package computergrafik.aufgabe5;
 
-import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.TextureIO;
-
-import javax.imageio.ImageIO;
-import javax.media.opengl.GL;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
