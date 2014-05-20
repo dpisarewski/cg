@@ -178,7 +178,8 @@ public class VertexArrayRenderer {
         texture.bind(gl);
         texture.enable(gl);
 
-        gl.glTexParameteri(texture.getTarget(), GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_DECAL);
+        gl.glTexEnvfv(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_COLOR, createBuffer(new float[]{0f, 1f, 0f, 0.5f}));
 
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
