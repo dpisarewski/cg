@@ -109,9 +109,11 @@ public class ObjImporter {
         for(Triangle triangle : mesh.getTriangles()){
             int[] indices = triangle.getTextureIndices();
             List<TextureCoordinate> coordinates = new ArrayList<>();
+
             for(int index : indices){
                 coordinates.add(mesh.getTextureCoordinates().get(index));
             }
+
             newTextureCoordinates.addAll(coordinates);
         }
         return newTextureCoordinates;
