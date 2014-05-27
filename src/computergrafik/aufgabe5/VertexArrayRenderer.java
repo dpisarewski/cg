@@ -19,15 +19,40 @@ import java.util.List;
  */
 
 public class VertexArrayRenderer {
+    /**
+     * Array mit Vertexkoordinaten
+     */
     private float[] vertexArray     = new float[0];
-    private float[] colorsArray     = new float[0];
-    private float[] normalsArray    = new float[0];
-    private float[] textureArray    = new float[0];
-    private ShadingType shadingType = ShadingType.FLAT;
-    private String textureFilename;
-    private Texture texture;
 
-    public VertexArrayRenderer(){}
+    /**
+     * Array mit Farbwerten
+     */
+    private float[] colorsArray     = new float[0];
+
+    /**
+     * Array mit Normalen
+     */
+    private float[] normalsArray    = new float[0];
+
+    /**
+     * Array mit Texturkoordinaten
+     */
+    private float[] textureArray    = new float[0];
+
+    /**
+     * Shading Type(FLAT oder Gouraud)
+     */
+    private ShadingType shadingType = ShadingType.FLAT;
+
+    /**
+     * Dateiname eines Texturbilds
+     */
+    private String textureFilename;
+
+    /**
+     * OpenGL Texturobjekt
+     */
+    private Texture texture;
 
     public ShadingType getShadingType() {
         return shadingType;

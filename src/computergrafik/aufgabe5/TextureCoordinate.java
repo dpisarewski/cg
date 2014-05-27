@@ -1,10 +1,24 @@
 package computergrafik.aufgabe5;
 
 /**
- * Created by pisare_d on 14.05.2014.
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 5
+ */
+
+/**
+ * Klasse für 2D Texturkoordinaten
  */
 public class TextureCoordinate {
+    /**
+     * Texturkoordinate U
+     */
     private float u;
+
+    /**
+     * Texturkoordinate V
+     */
     private float v;
 
     public TextureCoordinate(float u, float v){
