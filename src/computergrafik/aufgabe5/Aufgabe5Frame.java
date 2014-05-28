@@ -43,6 +43,7 @@ public class Aufgabe5Frame extends ComputergrafikFrame {
         scene.addNode(transformation);
 
         mesh = ObjImporter.loadMesh("data/aufgabe5/sphere.obj");
+        mesh.getRenderer().setShadingType(ShadingType.GOURAUD);
         scene.addNode(mesh);
 
         mesh = ObjImporter.loadMesh("data/aufgabe5/cube.obj");
