@@ -1,8 +1,10 @@
 /**
- * Prof. Philipp Jenke
- * Hochschule für Angewandte Wissenschaften (HAW), Hamburg
- * Lecture demo program.
+ * Praktikum Computergrafik, SS2014
+ * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
+ * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
+ * Aufgabenblatt 6
  */
+
 package computergrafik.aufgabe6;
 
 import computergrafik.framework.ComputergrafikFrame;
@@ -12,15 +14,21 @@ import javax.media.opengl.GL2;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Application for the first exercise.
- * 
- * @author Philipp Jenke
- * 
- */
+
 public class Aufgabe6Frame extends ComputergrafikFrame {
+    /**
+     * Szenengraph
+     */
     private Node scene = new Node();
+
+    /**
+     * Kamerapfad
+     */
     private CameraPath path;
+
+    /**
+     * Flag. Signalisiert, ob der Rendering gestartet werden darf
+     */
     private boolean isSetup;
 
     /**
@@ -68,17 +76,19 @@ public class Aufgabe6Frame extends ComputergrafikFrame {
         isSetup = true;
     }
 
+    /**
+     * Bewegt die Kamera durch den Kamerapfad
+     */
     @Override
     protected void timerTick() {
-        if(!isSetup){
-            return;
-        }
-
-        Vector3 point = path.next();
-        if(point != null){
-            getCamera().setEye(point);
+        if(isSetup){
+            Vector3 point = path.next();
+            if(point != null){
+                getCamera().setEye(point);
+            }
         }
     }
+
     /**
      * Program entry point.
      */
