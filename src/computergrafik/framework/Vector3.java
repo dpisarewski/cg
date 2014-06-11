@@ -215,4 +215,13 @@ public class Vector3 {
     public boolean isNull(){
         return equals(new Vector3());
     }
+
+    /**
+     * Return angle between this vector and other vector.
+     * @param v Other vector
+     * @return Angle in degree
+     */
+    public int getAngle(Vector3 v) {
+        return (int) (Math.toDegrees(Math.acos(multiply(v) / (getNorm() * v.getNorm()))));
+    }
 }

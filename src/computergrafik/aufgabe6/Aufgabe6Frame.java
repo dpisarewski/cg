@@ -73,6 +73,7 @@ public class Aufgabe6Frame extends ComputergrafikFrame {
         controlPoints.add(new Vector3(5,3,-2));
         controlPoints.add(new Vector3(-4,3,-2));
         path = new CameraPath(controlPoints, 0.005f);
+
         isSetup = true;
     }
 
@@ -83,6 +84,7 @@ public class Aufgabe6Frame extends ComputergrafikFrame {
     protected void timerTick() {
         if(isSetup){
             Vector3 point = path.next();
+
             if(point != null){
                 getCamera().setEye(point);
             }

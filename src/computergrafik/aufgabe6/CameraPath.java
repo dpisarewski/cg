@@ -108,9 +108,9 @@ public class CameraPath {
             param1 = controlPoints.get(index(s) + 1).subtract(controlPoints.get(index(s) - 1));
             param2 = controlPoints.get(index(s) + 2).subtract(controlPoints.get(index(s)));
         }
+
         param1 = param1.multiply(h1(t(s)));
         param2 = param2.multiply(h2(t(s)));
-
         Vector3 param3 = endPoint(s).multiply(h3(t(s)));
         return param0.add(param1).add(param2).add(param3);
     }
