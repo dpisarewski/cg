@@ -1,5 +1,7 @@
 package computergrafik.portalculling;
 
+import Jama.Matrix;
+import computergrafik.framework.MathHelpers;
 import computergrafik.framework.Vector3;
 
 /**
@@ -66,7 +68,27 @@ public class Ray2D {
 	 *         intersect, the method return null.
 	 */
 	public IntersectionResult intersect(Ray2D other) {
+        Vector3 sum = p.multiply(-1).add(other.p);
+        double[][] a    = new double[][]{
+                {direction.get(0), -other.direction.get(0)},
+                {direction.get(2), -other.direction.get(2)}
+        };
+        double[][] b    = new double[][]{
+                {sum.get(0), -other.direction.get(0)},
+                {sum.get(2), -other.direction.get(2)}
+        };
+        double[][] c    = new double[][]{
+                {direction.get(0), sum.get(0)},
+                {direction.get(2), sum.get(2)}
+        };
 
-		return null;
+        double det  = new Matrix(a).det();
+        double det1 = new Matrix(b).det();
+        double det2 = new Matrix(c).det();
+
+        double lambda1 = det1 / det;
+        double lambda2 = det2 / det;
+
+		return (Math.abs(det) < MathHelpers.EPSILON) ? null : new IntersectionResult(lambda1, lambda2);
 	}
 }
