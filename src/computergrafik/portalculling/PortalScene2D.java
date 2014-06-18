@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import computergrafik.framework.MathHelpers;
 import computergrafik.framework.Vector3;
 
 /**
@@ -157,8 +158,17 @@ public class PortalScene2D {
 	 *          otherwise.
 	 */
 	public boolean cellContainsPoint(PortalCell cell, Vector3 p) {
-		// TODO: Ihre Aufgabe!
-		return false;
+        List<Vector3> vectorList = getCellNodes(cell);
+        double area = vectorList.get(0).subtract(vectorList.get(1)).cross(vectorList.get(0).subtract(vectorList.get(2))).getNorm() / 2;
+        double area1 = vectorList.get(1).subtract(p).cross(vectorList.get(2).subtract(p)).getNorm() / 2;
+        double area2 = vectorList.get(2).subtract(p).cross(vectorList.get(0).subtract(p)).getNorm() / 2;
+        double area3 = vectorList.get(0).subtract(p).cross(vectorList.get(1).subtract(p)).getNorm() / 2;
+
+        double a = area1 / area;
+        double b = area2 / area;
+        double c = area3 / area;
+
+		return Math.abs(a + b + c - 1) < MathHelpers.EPSILON;
 	}
 
 	/**
@@ -294,4 +304,8 @@ public class PortalScene2D {
 	public int getNumberOfCells() {
 		return cells.size();
 	}
+
+    public List<PortalCell> getCells() {
+        return cells;
+    }
 }
