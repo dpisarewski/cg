@@ -4,7 +4,7 @@ package computergrafik.aufgabe7;
  * Praktikum Computergrafik, SS2014
  * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
- * Aufgabenblatt 3
+ * Aufgabenblatt 7
  */
 
 import javax.media.opengl.GL2;
@@ -85,6 +85,10 @@ public class TriangleMesh extends Node {
      * Speichert zu jedem Vertex Triangles, die ihn enthalten in einem Map
      */
     public void generateStructure(){
+        if(triangles.isEmpty()){
+            generateTriangles();
+        }
+
         for(Triangle triangle: triangles){
             for(Vertex vertex : triangle.getVertices(vertices)){
                 Set<Triangle> set = assotiations.get(vertex);
@@ -96,6 +100,15 @@ public class TriangleMesh extends Node {
 
                 set.add(triangle);
             }
+        }
+    }
+
+    /**
+     * Erstellt die Dreiecken aus Ecken
+     */
+    public void generateTriangles(){
+        for(int i = 0; i < vertices.size() - 2; i += 3){
+            triangles.add(new Triangle(new int[]{i, i + 1, i + 2}));
         }
     }
 

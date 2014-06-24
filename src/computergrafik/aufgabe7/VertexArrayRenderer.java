@@ -15,7 +15,7 @@ import java.util.List;
  * Praktikum Computergrafik, SS2014
  * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
- * Aufgabenblatt 2, Aufgabe c.
+ * Aufgabenblatt 7
  */
 
 public class VertexArrayRenderer {
@@ -54,12 +54,30 @@ public class VertexArrayRenderer {
      */
     private Texture texture;
 
+    /**
+     * Polygon Modus
+     */
+    private int polygonMode = GL2.GL_FILL;
+
+    /**
+     * Zeichnungsart
+     */
+    private int drawMode = GL2.GL_TRIANGLES;
+
     public ShadingType getShadingType() {
         return shadingType;
     }
 
     public void setShadingType(ShadingType shadingType) {
         this.shadingType = shadingType;
+    }
+
+    public void setPolygonMode(int polygonMode) {
+        this.polygonMode = polygonMode;
+    }
+
+    public void setDrawMode(int drawMode) {
+        this.drawMode = drawMode;
     }
 
     /**
@@ -182,7 +200,7 @@ public class VertexArrayRenderer {
      */
     public void draw(GL2 gl){
         start(gl);
-        gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexArray.length / 3);
+        gl.glDrawArrays(drawMode, 0, vertexArray.length / 3);
         end(gl);
     }
 
@@ -199,24 +217,17 @@ public class VertexArrayRenderer {
      * @param gl
      */
     private void start(GL2 gl){
-        loadTexture();
-        texture.bind(gl);
-        texture.enable(gl);
+        setupTexture(gl);
 
-        //gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_DECAL);
-        //gl.glTexEnvfv(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_COLOR, createBuffer(new float[]{0f, 1f, 0f, 0.5f}));
-
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, polygonMode);
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
         gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
-        gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
 
         FloatBuffer verticesBuf = createBuffer(vertexArray);
         FloatBuffer colorsBuff  = createBuffer(colorsArray);
         FloatBuffer normalsBuff = createBuffer(normalsArray);
-        FloatBuffer textureBuff = createBuffer(textureArray);
 
-        gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, textureBuff);
         gl.glVertexPointer(3,   GL2.GL_FLOAT, 0, verticesBuf);
         gl.glColorPointer(3,    GL2.GL_FLOAT, 0, colorsBuff);
         gl.glNormalPointer(     GL2.GL_FLOAT, 0, normalsBuff);
@@ -264,6 +275,21 @@ public class VertexArrayRenderer {
             texture = TextureIO.newTexture(new File(textureFilename), false);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Prüft ob eine Textur vorhanden ist. Falls ja, wird die geladen.
+     * @param gl OpenGL Objekt
+     */
+    private void setupTexture(GL2 gl){
+        if(textureFilename != null){
+            loadTexture();
+            texture.bind(gl);
+            texture.enable(gl);
+            gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
+            FloatBuffer textureBuff = createBuffer(textureArray);
+            gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, textureBuff);
         }
     }
 }

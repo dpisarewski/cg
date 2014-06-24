@@ -2,7 +2,7 @@
  * Praktikum Computergrafik, SS2014
  * Gruppe: Dieter Pisarewski (dieter.pisarewski@haw-hamburg.de)
  * 		   Vasily Uchakin (vasily.uchakin@haw-hamburg.de)
- * Aufgabenblatt 3
+ * Aufgabenblatt 7
  */
 package computergrafik.aufgabe7;
 
@@ -38,8 +38,10 @@ public class MaterialNode extends Node {
      * @param gl: Objekt, fuer den die Aenderungen vorgenommen werden sollen.
      */
     public void start(GL2 gl){
-        gl.glGetMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
-        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, color, 0);
+        gl.glGetMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_AMBIENT_AND_DIFFUSE, oldMaterial);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_AMBIENT_AND_DIFFUSE, color, 0);
+        gl.glColor3fv(color, 0);
+        gl.glEnable(GL2.GL_LINE_SMOOTH);
     }
 
     /**
@@ -47,7 +49,7 @@ public class MaterialNode extends Node {
      * @param gl: Objekt, fuer den die Aenderungen vorgenommen werden sollen.
      */
     public void end(GL2 gl){
-        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_DIFFUSE, oldMaterial);
+        gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GLLightingFunc.GL_AMBIENT_AND_DIFFUSE, oldMaterial);
     }
 
     /**

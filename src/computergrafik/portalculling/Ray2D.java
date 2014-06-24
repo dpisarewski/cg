@@ -89,6 +89,6 @@ public class Ray2D {
         double lambda1 = det1 / det;
         double lambda2 = det2 / det;
 
-		return (Math.abs(det) < MathHelpers.EPSILON) ? null : new IntersectionResult(lambda1, lambda2);
+		return (lambda1 < 0 && lambda2 < 0 && Math.abs(lambda1) > MathHelpers.EPSILON && Math.abs(lambda2) > MathHelpers.EPSILON) ? null : new IntersectionResult(lambda1, lambda2);
 	}
 }
