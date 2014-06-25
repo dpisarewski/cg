@@ -168,7 +168,7 @@ public class PortalScene2D {
         double b = area2 / area;
         double c = area3 / area;
 
-		return Math.abs(a + b + c - 1) < MathHelpers.EPSILON;
+		return a >= 0 && b >= 0 && c >= 0 && Math.abs(a + b + c - 1) < MathHelpers.EPSILON;
 	}
 
 	/**
